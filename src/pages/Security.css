@@ -1,0 +1,15 @@
+
+.account-div2{
+    display: flex; 
+    padding-top: 108px;
+    padding-left: 5%;   
+    text-align: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #FFFFFF;
+    height: calc( 100vh - 112px);
+}
+
+.secure{
+    color: #FFFFFF;
+}

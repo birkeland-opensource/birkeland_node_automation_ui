@@ -1,0 +1,26 @@
+.mt-100{
+    margin-top: 100px;
+}
+.scanner_btn{
+    padding: 12px 33px;
+}
+.scanner_para{
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 65px;
+}
+.scanner{
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 36px;
+    flex-direction: column;
+    display: flex;
+    margin-bottom: 0;
+}
+.scanner-layout {
+    width: 400px;
+    height: 295px;
+    margin-top: 27px;
+    background: "transparent";
+}

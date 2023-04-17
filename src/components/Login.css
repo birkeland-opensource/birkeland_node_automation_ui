@@ -1,0 +1,104 @@
+.logo{
+    margin: 0px;
+    padding: 0px;
+    height: 40px;
+    width: 40px;
+}
+  
+.registration {
+   padding-top: 80px;
+    margin: auto;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.registration a{
+    color: #FFBB38;
+}  
+.registration h1 {
+    font-family: 'Roboto Slab', serif;
+    font-size: 49px;
+    font-weight: 900;
+    letter-spacing: -1%;
+    text-align: center;
+    margin: 0px;
+}
+.registration p{
+    margin-bottom: 40px;
+    line-height: 28.5px;
+    font-size: 19px;
+    margin-top: 4px;
+}
+  
+input[type=text],[type=password] {
+    margin:8px 0;
+    align-items: center;
+    padding: 12px 16px;
+    width: 445px;
+    background: #FFFFFF;
+    border: 2px solid #E0E0E0;
+    border-radius: 6px;
+    font-size: 16px; 
+    font-weight: 400;
+ }
+input[type=text]{
+    background-image: url(../assets/icons/message.svg);
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position:410px 15px;
+    vertical-align: middle;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+ }
+input[type=password]{
+    background-image: url(../assets/icons/eye.svg);
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position:410px 14px;
+    vertical-align: middle;
+    margin: 0; 
+ }
+
+.yellow_button {
+    font-family: 'Inter', sans-serif;
+    border: none;
+    background: #FFBB38;
+    color: black;
+    width: 445px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 3%;
+    line-height: 24px;
+    outline: none;
+    padding: 10.5px 0;
+}
+input[type=checkbox]{
+    margin: auto;
+    outline: 2px solid #FFBB38;
+    background-color:#110D2B;
+    appearance: none;
+    padding: 8px;
+    border-radius: 0.5px;
+    margin-right: 11px;
+ }
+ .checkbox{
+    width: 445px;
+    padding: 19px 0;
+    display: flex;
+    justify-content: space-between;
+ }
+ .remember_me{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    display: flex;
+ }
+ .pass-link{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+ }

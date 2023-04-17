@@ -1,0 +1,11 @@
+.phrase-div{
+    width: 530px;
+    margin:50px auto;
+    padding: 60px 21px;
+    border: none;
+    background: #110D2B;
+    color: #FFFFFF;
+    border-radius: 20px;
+    font-size: 28px;
+    line-height:40px ;
+}

@@ -1,0 +1,230 @@
+/* customize checkox css */
+.cb-container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.cb-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* custom checkbox START */
+.cb-checkmark {
+    position: absolute;
+    top: -8px;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #09061600;
+    outline: 2px solid #9A8CE8;
+    border-radius: 2px;
+}
+
+/* On mouse-over, add a grey background color */
+.cb-container:hover input~.cb-checkmark {
+    background-color: #09061600;
+}
+
+/* When the checkbox is checked, add a blue background */
+.cb-container input:checked~.cb-checkmark {
+    background-color: #09061600;
+
+}
+
+/* Create the cb-checkmark/indicator (hidden when not checked) */
+.cb-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the cb-checkmark when checked */
+.cb-container input:checked~.cb-checkmark:after {
+    display: block;
+}
+
+/* Style the cb-checkmark/indicator */
+.cb-container .cb-checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 3px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/* USTOM CHECKBOX CSS END */
+
+.peer-container {
+    color: #FFFFFF;
+    padding-top: 70px;
+    padding-bottom: 66px;
+    text-align: center;
+    align-items: center;
+}
+
+.profile-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 18px;
+}
+
+.peer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.peer-table .table_head {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.peer-container td {
+    padding: 19px
+}
+
+.peer-container th {
+    padding: 0 0px 0 20px;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.peer table {
+    width: 825px;
+    height: 431px;
+    border-radius: 10px;
+    text-align: left;
+
+}
+
+.peer th,
+.peer tr:nth-child(odd) {
+    background: #221956;
+
+}
+
+.peer tr:nth-child(even) {
+    background: #110D2B;
+
+}
+
+.status {
+    font-weight: 400;
+    font-size: 16px;
+    color: #FFBB38;
+}
+
+
+
+.peer-table {
+    flex: 1;
+    margin: 60px 0 0 60px;
+    box-shadow: 10px 10px 5px 12px rgba(0, 0, 0, 0.113);
+
+}
+
+.add-peer {
+    background-color: #110D2B;
+    flex: 0;
+    padding: 27px 30px;
+    border-radius: 20px;
+    margin-top: 25px;
+}
+
+.add-peer img {
+    margin-top: 41px;
+    margin-bottom: 30px;
+    padding: 0;
+    width: 130px;
+    height: 130px;
+}
+
+.add-peer p {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 42px;
+}
+
+.peer-table small {
+    color: #9A8CE8;
+}
+
+#public-key,
+#ip-socket {
+    width: 275px;
+    height: 45px;
+
+}
+
+.add-peer-btn {
+    background-color: #FFBB38;
+    color: #171717;
+    font-family: Inter;
+    font-weight: 700;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 3px;
+    font-size: 23px;
+    margin-top: 11px;
+}
+
+.toggle-container-tor {
+    margin: 0px;
+}
+.peer-container .nxt_bck_btn{
+    margin-top: 102px;
+}
+.peer_right {
+    margin-top: 55px;
+    margin-left: 45px;
+}
+
+.peer_right .input-row {
+    padding: 0;
+}
+
+.peer_right input:checked+.toggle-slider:after {
+    position: relative;
+    right: -40px;
+    content: "On";
+    font-size: 19px;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+}
+
+.peer_right input:not(:checked)+.toggle-slider:after {
+    position: relative;
+    top: -7px;
+    right: -40px;
+    content: "Tor/Clearnet";
+    font-size: 19px;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+}
+.peer_right input[type=text]{
+    border-radius:0px;
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+}
+
+.font-28{
+    font-size: 28px;
+}

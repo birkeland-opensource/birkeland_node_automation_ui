@@ -1,0 +1,49 @@
+.account-div1{
+    display: flex; 
+    padding-top: 108px;
+    padding-left: 5%;
+    height: 100%;
+    /* height: calc(100vh - 112px); */
+    justify-content: center;
+}
+.account-div{
+    display: flex;      
+    text-align: center;
+    font-size: 28px;
+    color: #FFFFFF;
+    flex-wrap: wrap;  
+}
+.account-div img{
+    margin: 0;
+    padding: 0;
+}
+.deposit-div img, .withdraw-div img{
+    width: 100px ;
+    height: 100px;
+}
+.acc, .acc1{
+    background: #110D2B;
+    border-radius: 20px;
+    margin-right: 53px;
+    margin-bottom: 39px;
+}
+.acc{
+    height: 262px;
+    width: 251px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.acc1{
+    height: 262px;
+    width: 564px; 
+    display: flex;
+    align-items: center;
+    padding-left: 35px;  
+}
+.pay{
+    color: #FFFFFF;
+}
+.pay p{
+    padding-bottom: 36px;
+}
