@@ -1,6 +1,5 @@
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { createContext } from 'react';
 import Login from './components/Login';
 import Registration from './components/Registration';
 import Onboarding from './components/Onboarding';
@@ -21,15 +20,13 @@ import Security from './pages/Security';
 import Peer from './pages/Peer';
 import FundChannel from './pages/FundChannel';
 import LightningNode from './components/LightningNode';
+import useAuthToken from './context/useAuthToken';
 
-const store = createContext()
-const { Provider } = store
-export { store }
 function App() {
+  const {setToken, token} = useAuthToken();
   return (
     <div className="App">
-      <Provider>
-          <HashRouter basename='/'>
+          <BrowserRouter basename='/'>
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/register" element={<Registration />} />
@@ -51,13 +48,8 @@ function App() {
               <Route path="/policy" element={<Policy />} />
               <Route path="/accounting" element={<Accounting />} />
               <Route path="/security" element={<Security />} />
-              
-             
-          
             </Routes>
-          </HashRouter>
-        </Provider>
-      
+          </BrowserRouter>  
     </div>
   );
 }
