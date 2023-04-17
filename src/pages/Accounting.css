@@ -47,3 +47,43 @@
 .pay p{
     padding-bottom: 36px;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .account-div1 {
+        display: block; /* Change the layout to block for mobile devices */
+        padding-top: 60px; /* Adjust padding-top for better spacing on mobile */
+        padding-left: 0; /* Reset padding-left on mobile */
+    }
+
+    .account-div {
+        display: block; /* Change the layout to block for mobile devices */
+        font-size: 20px; /* Adjust font size for better readability on mobile */
+    }
+
+    .deposit-div img, .withdraw-div img {
+        width: 80px; /* Adjust width for better scaling on mobile */
+        height: 80px; /* Adjust height for better scaling on mobile */
+    }
+
+    .acc, .acc1 {
+        margin-right: 20px; /* Adjust margin-right for better spacing on mobile */
+        margin-bottom: 20px; /* Adjust margin-bottom for better spacing on mobile */
+    }
+
+    .acc {
+        height: 200px; /* Adjust height for better scaling on mobile */
+        width: 200px; /* Adjust width for better scaling on mobile */
+    }
+
+    .acc1 {
+        height: 200px; /* Adjust height for better scaling on mobile */
+        width: 100%; /* Set width to 100% for better scaling on mobile */
+        padding-left: 20px; /* Adjust padding-left for better spacing on mobile */
+    }
+
+    .pay p {
+        padding-bottom: 20px; /* Adjust padding-bottom for better spacing on mobile */
+    }
+}
+

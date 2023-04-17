@@ -44,3 +44,36 @@
     margin-top: 35px;
     margin-bottom: 29px;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .container-1 {
+        margin-top: 40px; /* Adjust margin-top for better spacing on mobile */
+    }
+
+    .container-1 ol {
+        margin-bottom: 40px; /* Adjust margin-bottom for better spacing on mobile */
+    }
+
+    .container-1 li {
+        font-size: 20px; /* Adjust font size for better readability on mobile */
+        line-height: 30px; /* Adjust line-height for better readability on mobile */
+    }
+
+    .start-btn {
+        font-size: 18px; /* Adjust font size for better readability on mobile */
+        padding: 12px 18px; /* Adjust padding for better touch targets on mobile */
+    }
+
+    .container-1 p {
+        font-size: 20px; /* Adjust font size for better readability on mobile */
+        line-height: 30px; /* Adjust line-height for better readability on mobile */
+    }
+
+    .container-1 h4 {
+        font-size: 20px; /* Adjust font size for better readability on mobile */
+        line-height: 30px; /* Adjust line-height for better readability on mobile */
+        margin-top: 25px; /* Adjust margin-top for better spacing on mobile */
+        margin-bottom: 20px; /* Adjust margin-bottom for better spacing on mobile */
+    }
+}

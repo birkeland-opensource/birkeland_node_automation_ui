@@ -228,3 +228,77 @@
 .font-28{
     font-size: 28px;
 }
+
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .peer-container {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .profile-img {
+        margin-right: 10px;
+    }
+
+    .peer {
+        flex-wrap: wrap;
+    }
+
+    .peer-table {
+        margin: 20px 0 0 20px;
+        width: 100%;
+    }
+
+    .peer table {
+        width: 100%;
+    }
+
+    .peer-container td {
+        padding: 12px;
+    }
+
+    .peer-container th {
+        padding: 0 0 0 10px;
+    }
+
+    .add-peer {
+        margin-top: 15px;
+    }
+
+    .add-peer img {
+        margin-top: 20px;
+        margin-bottom: 15px;
+        width: 80px;
+        height: 80px;
+    }
+
+    .add-peer p {
+        font-size: 20px;
+        line-height: 30px;
+    }
+
+    #public-key,
+    #ip-socket {
+        width: 100%;
+    }
+
+    .add-peer-btn {
+        font-size: 18px;
+        padding: 12px 18px;
+        margin-top: 8px;
+    }
+
+    .peer_right {
+        margin-top: 25px;
+        margin-left: 20px;
+    }
+
+    .peer_right .input-row {
+        padding: 0;
+    }
+
+    .peer-container .nxt_bck_btn {
+        margin-top: 40px;
+    }
+}

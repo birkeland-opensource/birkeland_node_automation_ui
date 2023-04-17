@@ -179,3 +179,48 @@ border-bottom: none;
     font-weight: 400;
     margin-top: 85px;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .data-details {
+        width: 100%; /* Set width to 100% for better scaling on mobile */
+        padding: 20px; /* Adjust padding for better spacing on mobile */
+        height: auto; /* Set height to auto for better scaling on mobile */
+    }
+
+    .mission_control .table {
+        width: 100%; /* Set width to 100% for better scaling on mobile */
+    }
+
+    .mission_control .pending-item {
+        flex-wrap: wrap; /* Allow items to wrap on mobile devices */
+    }
+
+    .img-box {
+        width: 100%; /* Set width to 100% for better scaling on mobile */
+        margin: 10px 0; /* Adjust margin for better spacing on mobile */
+    }
+
+    .analytics {
+        padding-left: 20px; /* Adjust padding-left for better spacing on mobile */
+        padding-right: 20px; /* Adjust padding-right for better spacing on mobile */
+    }
+
+    .box {
+        margin-bottom: 20px; /* Add margin-bottom for better spacing on mobile */
+    }
+
+    .box1, .box3 {
+        width: 100%; /* Set width to 100% for better scaling on mobile */
+    }
+
+    .box2, .box4 {
+        width: 100%; /* Set width to 100% for better scaling on mobile */
+        height: auto; /* Set height to auto for better scaling on mobile */
+    }
+
+    .box2 img {
+        width: 100%; /* Set width to 100% for better scaling on mobile */
+        height: auto; /* Set height to auto for better scaling on mobile */
+    }
+}

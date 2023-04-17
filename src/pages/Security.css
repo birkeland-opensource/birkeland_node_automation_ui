@@ -13,3 +13,25 @@
 .secure{
     color: #FFFFFF;
 }
+
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .account-div2 {
+        display: flex;
+        padding-top: 60px; /* Adjust the padding as needed */
+        padding-left: 5%;
+        text-align: center;
+        justify-content: center;
+        font-size: 24px; /* Adjust the font size as needed */
+        color: #FFFFFF;
+        height: calc(100vh - 112px);
+        flex-direction: column; /* Add this for better layout on mobile */
+    }
+
+    .secure {
+        color: #FFFFFF;
+    }
+
+    /* Add any other mobile-specific styles here */
+}

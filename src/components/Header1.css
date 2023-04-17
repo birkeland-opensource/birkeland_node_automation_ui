@@ -39,3 +39,28 @@
 .mission{
     color:white!important;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .head {
+        flex-direction: column; /* Stack header elements vertically on mobile */
+        align-items: flex-start;
+    }
+
+    .header1 {
+        padding-right: 0; /* Remove padding-right for mobile */
+    }
+
+    .header1 ul {
+        flex-direction: column; /* Stack menu items vertically on mobile */
+        align-items: flex-start;
+    }
+
+    .header1 li {
+        margin: 10px 0; /* Adjust margin for better spacing on mobile */
+    }
+
+    .header1 a {
+        font-size: 14px; /* Adjust font size for better readability on mobile */
+    }
+}

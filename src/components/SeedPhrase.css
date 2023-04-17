@@ -9,3 +9,17 @@
     font-size: 28px;
     line-height:40px ;
 }
+
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .phrase-div {
+        width: 90%; /* Adjust as needed */
+        margin: 25px auto;
+        padding: 30px 10px;
+        font-size: 18px; /* Adjust as needed */
+        line-height: 28px; /* Adjust as needed */
+    }
+
+    /* Add any other mobile-specific styles here */
+}

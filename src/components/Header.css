@@ -7,3 +7,17 @@ header{
 header img{
     padding: 35px 48px;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    header {
+        height: 80px;
+        font-size: 18px;
+    }
+
+    header img {
+        padding: 20px 24px;
+    }
+
+    /* Add any other mobile-specific styles here */
+}

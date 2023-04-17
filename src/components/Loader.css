@@ -14,3 +14,21 @@
     margin-top: 27px;
     background: "transparent";
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .mt-100 {
+        margin-top: 50px; /* Adjust margin-top for better spacing on mobile */
+    }
+
+    .loader-layout {
+        width: 100%; /* Adjust width for mobile devices */
+        height: auto; /* Make the height flexible */
+    }
+
+    .loader-layout-2 {
+        width: 100%; /* Adjust width for mobile devices */
+        height: auto; /* Make the height flexible */
+        margin-top: 20px; /* Adjust margin-top for better spacing on mobile */
+    }
+}

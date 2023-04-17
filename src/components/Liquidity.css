@@ -6,3 +6,16 @@
     width: 283px;
     height: 295px;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .mt-100 {
+        margin-top: 50px;
+    }
+    .lq-layout {
+        width: 90%; /* Adjust as needed */
+        height: auto; /* Adjust as needed */
+    }
+
+    /* Add any other mobile-specific styles here */
+}

@@ -24,3 +24,30 @@
     margin-top: 27px;
     background: "transparent";
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .mt-100 {
+        margin-top: 50px; /* Adjust margin-top for better spacing on mobile */
+    }
+
+    .scanner_btn {
+        padding: 10px 20px; /* Adjust padding for better touch targets on mobile */
+    }
+
+    .scanner_para {
+        font-size: 16px; /* Adjust font size for better readability on mobile */
+        line-height: 22px; /* Adjust line-height for better readability on mobile */
+        margin-bottom: 40px; /* Adjust margin-bottom for better spacing on mobile */
+    }
+
+    .scanner {
+        margin-top: 20px; /* Adjust margin-top for better spacing on mobile */
+    }
+
+    .scanner-layout {
+        width: 100%; /* Adjust width for mobile devices */
+        height: auto; /* Make the height flexible */
+        margin-top: 20px; /* Adjust margin-top for better spacing on mobile */
+    }
+}

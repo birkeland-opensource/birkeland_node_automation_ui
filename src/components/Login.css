@@ -102,3 +102,37 @@ input[type=checkbox]{
     font-weight: 700;
     line-height: 24px;
  }
+
+ /* Media query for mobile devices */
+@media (max-width: 768px) {
+    .registration {
+        padding-top: 40px; /* Adjust padding-top for better spacing on mobile */
+    }
+
+    .registration h1 {
+        font-size: 30px; /* Adjust font size for better readability on mobile */
+    }
+
+    .registration p {
+        font-size: 16px; /* Adjust font size for better readability on mobile */
+        margin-bottom: 20px; /* Adjust margin-bottom for better spacing on mobile */
+    }
+
+    input[type=text], [type=password] {
+        width: 100%; /* Adjust width for mobile devices */
+        background-position: calc(100% - 16px) 15px; /* Adjust background position for mobile */
+    }
+
+    .yellow_button {
+        width: 100%; /* Adjust width for mobile devices */
+    }
+
+    .checkbox {
+        flex-direction: column; /* Stack elements vertically on mobile */
+        align-items: flex-start;
+    }
+
+    .remember_me {
+        margin-bottom: 10px; /* Add margin-bottom for better spacing on mobile */
+    }
+}
