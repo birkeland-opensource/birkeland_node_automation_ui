@@ -10,8 +10,8 @@ const Registration = () => {
         <div class="registration">
             <img class="logo" src={require("../assets/icons/Shield Check.png")} alt="" />
             <h1>Register a new account</h1>
-            <p>Already have an account? <a href=".#" onClick={() => {
-          navigate("/")
+            <p>Already have an account? <a href="/login" onClick={() => {
+          navigate("/login")
         }}>Log in</a></p>
             <span>
                 <input type="text" placeholder="Email Address" />

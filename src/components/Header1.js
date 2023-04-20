@@ -37,6 +37,12 @@ const Header1 = () => {
                             navigate("/security")
                         }}>Security</a>
                     </li>
+                    <li>
+                        <a className={location.pathname == "/connect" ? "mission" : ""} href="#" onClick={(e) => {
+                            e.preventDefault()
+                            navigate("/connect")
+                        }}>Connect</a>
+                    </li>
                 </ul>
             </div>
             <div >
