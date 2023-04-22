@@ -1,164 +1,288 @@
-import React from 'react'
+import React from "react";
+
+
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Filler,
-    Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import "./Connect.css"
-import Header1 from './Header1'
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  Input,
+  ModalFooter,
+  Flex,
+  Switch,
+} from "@chakra-ui/react";
+//import "./Connect.css"
+import Header1 from "./Header1";
+import { titleColor } from "../utlis/color_themes";
+import { delete_one_node_info, get_all_node_info, save_node_info } from "../services/api/node_info_service";
+import { useSelector } from 'react-redux';
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Filler,
-    Title,
-    Tooltip,
-    Legend
-);
 
-const labels = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-];
+const ConnectNode = (props) => {
+  const {user_id,selected_node_id,selected_node_alias,set_selected_node_id,set_selected_node_alias} = props;
 
-const ConnectNode = () => {
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: "Dataset 1",
-                data: [
-                    860,
-                    1140,
-                    1060,
-                    1060,
-                    1070,
-                    1110,
-                    1330,
-                    2210,
-                    7830,
-                    2478,
-                    2478,
-                    3478
-                ],
-                borderColor: "#FFBB38",
-                fill: true,
-                pointRadius: 1,
-                backgroundColor: "#FFBB38",
-                lineTension: 0.5
-            },
-            {
-                label: "Dataset 2",
-                data: [
-                    1600,
-                    1700,
-                    1700,
-                    1900,
-                    2000,
-                    2700,
-                    4000,
-                    5000,
-                    6000,
-                    7000,
-                    6000,
-                    6500
-                ],
-                borderColor: "#8B98F9",
-                fill: true,
-                pointRadius: 1,
-                backgroundColor: "#8B98F9",
-                lineTension: 0.5
-            }
-        ]
+  const ACTION = {
+    SET_ADD_NODE_MODAL_DIALOG_STATE: "SET_ADD_NODE_MODAL_DIALOG_STATE",
+    SET_NODE_ALIAS: "SET_NODE_ALIAS",
+    SET_MACAROON: "SET_MACAROON",
+    SET_TLS_CERT: "SET_TLS_CERT",
+    SET_LOADING_DIALOG_STATE: "SET_LOADING_DIALOG_STATE",
+   // SET_SELECTED_NODE_ID: "SET_SELECTED_NODE_ID",
+   // SET_SELECTED_NODE_ALIAS : "SET_SELECTED_NODE_ALIAS",
+    SET_SAVED_NODES: "SET_SAVED_NODES"
+  };
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case ACTION.SET_ADD_NODE_MODAL_DIALOG_STATE:
+        return { ...state, show_add_node_modal: action.payload };
+      case ACTION.SET_NODE_ALIAS:
+        return { ...state, node_alias: action.payload };
+      case ACTION.SET_MACAROON:
+        return { ...state, macaroon: action.payload };
+      case ACTION.SET_TLS_CERT:
+        return { ...state, tls_cert: action.payload };
+      case ACTION.SET_LOADING_DIALOG_STATE:
+        return { ...state, show_loading_dialog: action.payload };
+      // case ACTION.SET_SELECTED_NODE_ID:
+      //   return { ...state, selected_node_id: action.payload };
+      case ACTION.SET_SAVED_NODES:
+        return { ...state, saved_nodes: action.payload };
+        // case ACTION.SET_SELECTED_NODE_ALIAS:
+        //   return { ...state, selected_node_alias: action.payload };
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = React.useReducer(reducer, {
+    show_add_node_modal: false,
+   // node_alias: "",
+    macaroon: "",
+    tls_cert: "",
+    show_loading_dialog: false,
+    selected_node_id: selected_node_id,
+    saved_nodes: [],
+  });
+
+  React.useEffect(() => {
+    async function fetchData() {
+      let get_object = {
+        params : {user_id : user_id}
+      }
+      let resp = await get_all_node_info(get_object);
+     
+      if(resp.success){
+        dispatch({
+          type: ACTION.SET_SAVED_NODES,
+          payload: resp?.message?.message,
+        });
+      }
+      }
+    
+    fetchData();
+  }, [state?.show_add_node_modal]);
+
+
+  const handle_add_node_btn_click = () => {
+    dispatch({
+      type: ACTION.SET_ADD_NODE_MODAL_DIALOG_STATE,
+      payload: true,
+    });
+  };
+
+  const handle_create_node_btn_click = async () => {
+    let new_node_object = {
+      user_id : user_id,
+      node_alias: state.node_alias,
+      macaroon: state.macaroon,
+      tls_cert: state.tls_cert,
     };
-    return (
-        <div className='pb-97'>
-            <Header1 />
-            <div className="data-details mission_control">
 
-                <div><h1>Manage Your Nodes</h1>
-                </div>
-                <div className="container">
-                    <div><h2>Manage</h2>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th>SN</th>
-                                    <th>Alias</th>
-                                    <th>Control</th>
-                                    <th>Delete</th>
-                                
+    let resp = await save_node_info(new_node_object);
+    if(resp?.success){
+      alert("Node created successfully");
+      dispatch({
+        type: ACTION.SET_ADD_NODE_MODAL_DIALOG_STATE,
+        payload: false,
+      });
+    }
+    else{
+      alert("Error creating node");
+      dispatch({
+        type: ACTION.SET_ADD_NODE_MODAL_DIALOG_STATE,
+        payload: true,
+      });
+    }
+  };
 
-                                </tr>
-                            </thead>
-                            <tr className="first_tr">
-                                <td>LNBig</td>
-                                <td>70</td>
-                                <td className="gradient_text">222,000</td>
-                                <td>---|-----</td>
-                            </tr>
-                            <tr>
-                                <td>Fold</td>
-                                <td>66</td>
-                                <td className="gradient_text">700,000</td>
-                                <td>-----|---</td>
-                            </tr>
-                            <tr>
-                                <td>Blockdaemon</td>
-                                <td>12</td>
-                                <td className="gradient_text">8,000</td>
-                                <td>-------|-</td>
-                            </tr>
-                            <tr>
-                                <td>marvin</td>
-                                <td>12</td>
-                                <td className="gradient_text">8,000</td>
-                                <td>----|----</td>
-                            </tr><tr>
-                                <td>Charge LN</td>
-                                <td>70</td>
-                                <td className="gradient_text">332,000</td>
-                                <td>---|-----</td>
-                            </tr>
-                            <tr>
-                                <td>Birkeland</td>
-                                <td>66</td>
-                                <td className="gradient_text">555,000</td>
-                                <td>-----|---</td>
-                            </tr>
-                            <tr>
-                                <td>switch-In</td>
-                                <td>12</td>
-                                <td className="gradient_text">4,000,000</td>
-                                <td>-------|-</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <button className='yellow_button mt-3'>Add</button>
-                </div>
-           
-            </div>
+
+  const switch_selected_node_info = (node_info,event) =>{
+      if(event?.target?.checked)
+      {
+        set_selected_node_alias(node_info?.node_alias);
+        set_selected_node_id(node_info?.unique_node_id);
+        window.location.reload();
+      } 
+      else if(node_info?.node_alias === selected_node_alias){
+        set_selected_node_alias("");
+        set_selected_node_id("");
+      }   
+  }
+
+
+  const delete_a_node = async (node_id) =>{
+
+    let delete_params = {params :{unique_node_id : node_id, user_id :user_id } }
+    let resp = await delete_one_node_info(delete_params);
+    if(resp?.success){
+      alert("Delete successful");
+      window.location.reload();
+    }
+    else{
+      alert("Error deleting node");
+    }
+  }
+
+  return (
+    <div className="pb-97">
+      <Header1 />
+      <div className="data-details mission_control">
+        <div>
+          <h1>Manage Your Nodes</h1>
         </div>
-    )
-}
+        <div className="container">
+        {state?.saved_nodes?.length >0 &&  <div>
+            <h2>Active Node - {selected_node_alias}</h2>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>SN</th>
+                  <th>Alias</th>
+                  <th>Control</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              {state.saved_nodes.map((node, index) => (
+                <tr key={node?.unique_node_id}>
+                  <td>{index + 1}</td>
+                  <td>{node?.node_alias}</td>
+                  <td>
+                      <Switch
+                      defaultChecked={node?.unique_node_id === selected_node_id}
+                      onChange = {(e)=>switch_selected_node_info(node,e)}
+                      colorScheme="yellow"
+                      />
+                    </td>
+                   <td><Button onClick={()=>delete_a_node(node?.unique_node_id)} fontFamily="Bekeley"  bg={titleColor} color={'black'}>Delete</Button></td> 
+                </tr>
+              ))}
+            </table>
+          </div>}
 
-export default ConnectNode
+          <Button
+            bg={"yellow.500"}
+            color="black"
+            onClick={() => handle_add_node_btn_click()}
+            _hover={{
+              bg: "yellow.200",
+              transition: "background-color 0.2s ease-in-out",
+            }}
+          >
+            Add
+          </Button>
+        </div>
+      </div>
+      {state.show_add_node_modal && (
+        <Modal
+          size={"lg"}
+          isOpen={state.show_add_node_modal}
+          onClose={() =>
+            dispatch({
+              type: ACTION.SET_ADD_NODE_MODAL_DIALOG_STATE,
+              payload: false,
+            })
+          }
+        >
+          <ModalOverlay />
+          <ModalContent>
+          <ModalHeader id="form-dialog-title" bg={'white'}>
+          <Flex align={"center"} justify={"center"} fontFamily="Bekeley">
+            Add new lightning node server info
+          </Flex>
+        </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Input
+                fontFamily="Bekeley"
+                value={state.node_alias}
+                type="text"
+                placeholder={"NODE ALIAS"}
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTION.SET_NODE_ALIAS,
+                    payload: e.target.value,
+                  })
+                }
+              />
+
+              <Input
+                fontFamily="Bekeley"
+                value={state.macaroon}
+                type="text"
+                placeholder={"MACAROON"}
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTION.SET_MACAROON,
+                    payload: e.target.value,
+                  })
+                }
+              />
+
+              <Input
+                fontFamily="Bekeley"
+                value={state.tls_cert}
+                type="text"
+                placeholder={"TLS CERTIFICATE"}
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTION.SET_TLS_CERT,
+                    payload: e.target.value,
+                  })
+                }
+              />
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                fontFamily="Bekeley"
+                bg={titleColor}
+                mr={3}
+                onClick={() => handle_create_node_btn_click()}
+              >
+                Add
+              </Button>
+              <Button
+                fontFamily="Bekeley"
+                bg={titleColor}
+                onClick={() =>
+                  dispatch({
+                    type: ACTION.SET_ADD_NODE_MODAL_DIALOG_STATE,
+                    payload: false,
+                  })
+                }
+              >
+                Close
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
+    </div>
+  );
+};
+
+export default ConnectNode;

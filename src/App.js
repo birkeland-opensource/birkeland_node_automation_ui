@@ -22,35 +22,42 @@ import FundChannel from './pages/FundChannel';
 import LightningNode from './components/LightningNode';
 import useAuthToken from './context/useAuthToken';
 import ConnectNode from './components/ConnectNode';
+import { mapDispatchToProps, mapStateToProps } from "./redux_reducer/props_and_dispatch";
+import { connect } from "react-redux";
+
+const ConnectedConnectNode = connect(mapStateToProps,mapDispatchToProps)(ConnectNode);
 
 function App() {
   const {setToken, token} = useAuthToken();
-  console.log(token);
-  if (!token) {
+  // if (!token) {
    
-    return (
-      <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Registration setToken={setToken}/>}/> 
-          <Route path="/register" element={<Registration setToken={setToken}/>} />
-          <Route path="/login" element={<Login setToken={setToken}/>} />
-          <Route path="/register" element={<Registration />} />
-          <Route path="/dashboard" element={<MissionControl />} />
-          <Route path="/connect" element={<ConnectNode />} />
-          <Route path="*" element={<Navigate to="/" />} /> 
-        </Routes>
-      </BrowserRouter>
-      </div>
-    );
-  }
+  //   return (
+  //     <div className="App">
+  //     <BrowserRouter>
+  //       <Routes>
+  //         <Route path="/" element={<Registration setToken={setToken}/>}/> 
+  //         <Route path="/register" element={<Registration setToken={setToken}/>} />
+  //         <Route path="/login" element={<Login setToken={setToken}/>} />
+  //         <Route path="/register" element={<Registration />} />
+  //         <Route path="/dashboard" element={<MissionControl />} />
+  //         <Route path="/connect" element={<ConnectNode />} />
+  //         <Route path="/tailwind" element={<TWComponent />} />
+  //         <Route path="/exampletwo" element={<ExampleTwo />} />
+  //         <Route path="*" element={<Navigate to="/" />} /> 
+  //       </Routes>
+  //     </BrowserRouter>
+  //     </div>
+  //   );
+  // }
 
 
   return (
     <div className="App">
           <BrowserRouter basename='/'>
             <Routes>
+              
               <Route path="/" element={<Login />} />
+              <Route path="/connect" element={<ConnectedConnectNode />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/wallet" element={<BitcoinWallet />} />
               <Route path="/seedphrase" element={<SeedPhrase />} />

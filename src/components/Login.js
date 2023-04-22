@@ -12,8 +12,7 @@ const Login = () => {
 
     const login_user = () => {
         
-        console.log(email);
-        console.log(password)
+       
     }
 
     return (

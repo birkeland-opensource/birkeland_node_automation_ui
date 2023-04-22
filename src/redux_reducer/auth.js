@@ -10,9 +10,11 @@ const authReducer = (state = {
       password: "", 
       business_user_id: "",
       email: "",
-      user_id : "",
+      user_id : "birkeland",
+      selected_node_id: "",
+      selected_node_alias : "",
       auth_token: {} }, action) => {
-  
+
   switch (action.type) {
     case REDUCER_ACTIONS.SET_IS_CONNECTED_TO_REMOTE_HOST : 
       return {...state, is_connected_to_remote_host :action.is_connected_to_remote_host}
@@ -36,6 +38,10 @@ const authReducer = (state = {
       return { ...state, last_returned_result: action.last_returned_result };
     case REDUCER_ACTIONS.SET_USER_ID:
       return { ...state, user_id: action.user_id };
+    case REDUCER_ACTIONS.SET_SELECTED_NODE_ID:
+      return { ...state, selected_node_id: action.selected_node_id };
+    case REDUCER_ACTIONS.SET_SELECTED_NODE_ALIAS:
+      return { ...state, selected_node_alias: action.selected_node_alias };
     default:
       return state;
   }
