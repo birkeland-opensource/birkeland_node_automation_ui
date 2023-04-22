@@ -17,7 +17,7 @@ import {
 //import "./Connect.css"
 import Header1 from "./Header1";
 import { titleColor } from "../utlis/color_themes";
-import { delete_one_node_info, get_all_node_info, save_node_info } from "../services/api/node_info_service";
+import { delete_one_node_info_service, get_all_node_info_service, save_node_info_service } from "../services/api/node_info_service";
 import { useSelector } from 'react-redux';
 
 
@@ -73,7 +73,7 @@ const ConnectNode = (props) => {
       let get_object = {
         params : {user_id : user_id}
       }
-      let resp = await get_all_node_info(get_object);
+      let resp = await get_all_node_info_service(get_object);
      
       if(resp.success){
         dispatch({
@@ -102,7 +102,7 @@ const ConnectNode = (props) => {
       tls_cert: state.tls_cert,
     };
 
-    let resp = await save_node_info(new_node_object);
+    let resp = await save_node_info_service(new_node_object);
     if(resp?.success){
       alert("Node created successfully");
       dispatch({
@@ -137,7 +137,7 @@ const ConnectNode = (props) => {
   const delete_a_node = async (node_id) =>{
 
     let delete_params = {params :{unique_node_id : node_id, user_id :user_id } }
-    let resp = await delete_one_node_info(delete_params);
+    let resp = await delete_one_node_info_service(delete_params);
     if(resp?.success){
       alert("Delete successful");
       window.location.reload();

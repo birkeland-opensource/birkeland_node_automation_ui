@@ -2,17 +2,37 @@ import React, { useState } from 'react';
 import './Login.css'
 import Header from './Header'
 import { useNavigate } from 'react-router-dom';
+import { login_user_service } from '../services/api/user_management_service';
 
-const Login = () => {
+const Login = (props) => {
+    const {set_user_id} = props;
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showloadingDialog, setShowloadingDialog] = useState(false)
 
-    const login_user = () => {
+    const login_user = async () => {
+        if (email.length < 1 || password.length < 1) {
+            alert("All fields are needed");
+            return;
+          }
+      
+          let loginObject = {
+            email: email,
+            password: password,
+          };
+
+        let res =  await login_user_service(loginObject);
         
+        if(res.success){
+            sessionStorage.setItem('token', res.message?.message?.token);
+            set_user_id(res.message?.message?.business_user_id);
+            window.location.reload();
+        }
        
+       
+
     }
 
     return (

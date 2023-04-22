@@ -24,31 +24,26 @@ import useAuthToken from './context/useAuthToken';
 import ConnectNode from './components/ConnectNode';
 import { mapDispatchToProps, mapStateToProps } from "./redux_reducer/props_and_dispatch";
 import { connect } from "react-redux";
+import { useState } from 'react';
 
 const ConnectedConnectNode = connect(mapStateToProps,mapDispatchToProps)(ConnectNode);
-
+const ConnectedLogin = connect(mapStateToProps,mapDispatchToProps)(Login);
 function App() {
-  const {setToken, token} = useAuthToken();
-  // if (!token) {
-   
-  //   return (
-  //     <div className="App">
-  //     <BrowserRouter>
-  //       <Routes>
-  //         <Route path="/" element={<Registration setToken={setToken}/>}/> 
-  //         <Route path="/register" element={<Registration setToken={setToken}/>} />
-  //         <Route path="/login" element={<Login setToken={setToken}/>} />
-  //         <Route path="/register" element={<Registration />} />
-  //         <Route path="/dashboard" element={<MissionControl />} />
-  //         <Route path="/connect" element={<ConnectNode />} />
-  //         <Route path="/tailwind" element={<TWComponent />} />
-  //         <Route path="/exampletwo" element={<ExampleTwo />} />
-  //         <Route path="*" element={<Navigate to="/" />} /> 
-  //       </Routes>
-  //     </BrowserRouter>
-  //     </div>
-  //   );
-  // }
+  
+  const [token, settoken] = useState(sessionStorage.getItem('token'))
+  if (!token) {
+    return (
+
+       <div className="App">
+    <BrowserRouter>
+       <Routes>
+        <Route path="/" element={<ConnectedLogin />} />
+         <Route path="*" element={<Navigate to="/" />} />  
+       </Routes>
+      </BrowserRouter>
+      </div>
+   );
+   }
 
 
   return (
@@ -56,7 +51,7 @@ function App() {
           <BrowserRouter basename='/'>
             <Routes>
               
-              <Route path="/" element={<Login />} />
+              <Route path="/" element={<MissionControl />} />
               <Route path="/connect" element={<ConnectedConnectNode />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/wallet" element={<BitcoinWallet />} />

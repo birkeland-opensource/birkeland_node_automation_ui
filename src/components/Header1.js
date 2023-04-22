@@ -49,7 +49,8 @@ const Header1 = () => {
                     <li>
                         <a className="sign-out" href="#" onClick={(e) => {
                             e.preventDefault()
-                            navigate("/")
+                            sessionStorage.removeItem('token')
+                            window.location.reload();
                         }}>Sign Out</a>
                     </li>
                 </ul>
