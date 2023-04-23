@@ -25,6 +25,7 @@ import ConnectNode from './components/ConnectNode';
 import { mapDispatchToProps, mapStateToProps } from "./redux_reducer/props_and_dispatch";
 import { connect } from "react-redux";
 import { useState } from 'react';
+import MissionControlDev from './pages/MissionControlDev';
 
 const ConnectedConnectNode = connect(mapStateToProps,mapDispatchToProps)(ConnectNode);
 const ConnectedLogin = connect(mapStateToProps,mapDispatchToProps)(Login);
@@ -51,7 +52,7 @@ function App() {
           <BrowserRouter basename='/'>
             <Routes>
               
-              <Route path="/" element={<MissionControl />} />
+              <Route path="/" element={<MissionControlDev />} />
               <Route path="/connect" element={<ConnectedConnectNode />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/wallet" element={<BitcoinWallet />} />
@@ -67,7 +68,7 @@ function App() {
               <Route path="/liquidity" element={<Liquidity />} />
               <Route path="/loading" element={<Loader1 />} />
               <Route path="/todashboard" element={<ToDashboard />} />
-              <Route path="/dashboard" element={<MissionControl />} />
+              <Route path="/dashboard" element={<MissionControlDev />} />
               <Route path="/policy" element={<Policy />} />
               <Route path="/accounting" element={<Accounting />} />
               <Route path="/security" element={<Security />} />

@@ -30,9 +30,8 @@ const ConnectNode = (props) => {
     SET_MACAROON: "SET_MACAROON",
     SET_TLS_CERT: "SET_TLS_CERT",
     SET_LOADING_DIALOG_STATE: "SET_LOADING_DIALOG_STATE",
-   // SET_SELECTED_NODE_ID: "SET_SELECTED_NODE_ID",
-   // SET_SELECTED_NODE_ALIAS : "SET_SELECTED_NODE_ALIAS",
-    SET_SAVED_NODES: "SET_SAVED_NODES"
+    SET_SAVED_NODES: "SET_SAVED_NODES",
+    SET_SOCKET : "SET_SOCKET"
   };
 
   const reducer = (state, action) => {
@@ -47,12 +46,10 @@ const ConnectNode = (props) => {
         return { ...state, tls_cert: action.payload };
       case ACTION.SET_LOADING_DIALOG_STATE:
         return { ...state, show_loading_dialog: action.payload };
-      // case ACTION.SET_SELECTED_NODE_ID:
-      //   return { ...state, selected_node_id: action.payload };
       case ACTION.SET_SAVED_NODES:
         return { ...state, saved_nodes: action.payload };
-        // case ACTION.SET_SELECTED_NODE_ALIAS:
-        //   return { ...state, selected_node_alias: action.payload };
+      case ACTION.SET_SOCKET:
+        return { ...state, socket: action.payload };
       default:
         return state;
     }
@@ -63,6 +60,7 @@ const ConnectNode = (props) => {
    // node_alias: "",
     macaroon: "",
     tls_cert: "",
+    socket : "",
     show_loading_dialog: false,
     selected_node_id: selected_node_id,
     saved_nodes: [],
@@ -100,6 +98,7 @@ const ConnectNode = (props) => {
       node_alias: state.node_alias,
       macaroon: state.macaroon,
       tls_cert: state.tls_cert,
+      socket : state.socket
     };
 
     let resp = await save_node_info_service(new_node_object);
@@ -254,6 +253,19 @@ const ConnectNode = (props) => {
                   })
                 }
               />
+
+              <Input
+                fontFamily="Bekeley"
+                value={state.socket}
+                type="text"
+                placeholder={"GRPC SOCKET"}
+                onChange={(e) =>
+                  dispatch({
+                    type: ACTION.SET_SOCKET,
+                    payload: e.target.value,
+                  })
+                }
+              />        
             </ModalBody>
 
             <ModalFooter>
