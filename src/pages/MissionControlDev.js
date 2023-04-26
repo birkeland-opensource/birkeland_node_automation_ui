@@ -44,10 +44,10 @@ const labels = [
 ];
 
 const MissionControlDev = () => {
-  const [channel_info_with_accounting, setchannel_info_with_accounting] =useState([]);
-  const [channle_opening_fee_earned, setChannle_opening_fee_earned] = useState();
-  const [wallet_balance_info, setWallet_balance_info] = useState({});
-  const [generic_node_info, set_generic_node_info] = useState({})
+  const [channel_info_with_accounting, setchannel_info_with_accounting] =useState(null);
+  const [channle_opening_fee_earned, setChannle_opening_fee_earned] = useState(null);
+  const [wallet_balance_info, setWallet_balance_info] = useState(null);
+  const [generic_node_info, set_generic_node_info] = useState(null)
     
 
   const user_id = useSelector((state) => state?.user_id);
@@ -70,8 +70,8 @@ const MissionControlDev = () => {
         setChannle_opening_fee_earned(fee_and_cost);
       }
     };
-
-    if (channel_info_with_accounting) {
+    console.log(!channel_info_with_accounting);
+    if (!channel_info_with_accounting) {
       fetchDataAsync();
     }
   }, []);
@@ -85,10 +85,15 @@ const MissionControlDev = () => {
         operation : "wallet_balance_grpc"
       }
       let resp = await call_grpc_ops(req_obj);
+
       setWallet_balance_info(resp.message)
     }
-    fetchDataAsync();
-})
+    console.log(!wallet_balance_info);
+    if(!wallet_balance_info){
+        fetchDataAsync();
+    }
+    
+},[])
 
 React.useEffect(() => {
     const fetchDataAsync = async () => {
@@ -101,8 +106,13 @@ React.useEffect(() => {
       let resp = await call_grpc_ops(req_obj);
       set_generic_node_info(resp.message)
     }
-    fetchDataAsync();
-})
+    console.log(generic_node_info);
+    if(!generic_node_info)
+      {
+        fetchDataAsync();
+      }
+    
+},[])
 
 
   const data = {
@@ -138,7 +148,7 @@ React.useEffect(() => {
       <Header1 />
       <div className="data-details mission_control">
         <div>
-          <h1>Mission Control</h1>
+          <h1>Mission Control - {generic_node_info?.alias}</h1>
         </div>
         <div className="container">
           <div>
