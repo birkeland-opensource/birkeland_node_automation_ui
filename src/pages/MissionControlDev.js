@@ -14,8 +14,8 @@ import { Line } from "react-chartjs-2";
 import "./MissionControl.css";
 import Header1 from "../components/Header1";
 import { useSelector } from "react-redux";
-import { call_grpc_ops, get_accounting_info } from "../services/api/lightning_node_communication_service";
-import { extract_fee_earned_channel_opening_cost, getDateRange } from "../services/support_functions";
+import { call_grpc_ops, get_accounting_info, get_forwards, get_rebalance_fee } from "../services/api/lightning_node_communication_service";
+import { extract_fee_earned_channel_opening_cost, getDateRange, get_fee_earned_from_forwards } from "../services/support_functions";
 
 ChartJS.register(
   CategoryScale,
@@ -47,14 +47,16 @@ const MissionControlDev = () => {
   const [channel_info_with_accounting, setchannel_info_with_accounting] =useState(null);
   const [channle_opening_fee_earned, setChannle_opening_fee_earned] = useState(null);
   const [wallet_balance_info, setWallet_balance_info] = useState(null);
-  const [generic_node_info, set_generic_node_info] = useState(null)
+  const [generic_node_info, set_generic_node_info] = useState(null);
+  const [rebalance_cost, set_rebalance_cost] = useState(null);
+  const [fee_earned, setfee_earned] = useState(null)
     
 
   const user_id = useSelector((state) => state?.user_id);
   const selectec_node_id = useSelector((state) => state?.selected_node_id);
   React.useEffect(() => {
     const fetchDataAsync = async () => {
-      let { start_date, end_date } = getDateRange();
+      let { start_date, end_date } = getDateRange(60);
       let get_object = {
         params: {
           user_id: user_id,
@@ -70,7 +72,6 @@ const MissionControlDev = () => {
         setChannle_opening_fee_earned(fee_and_cost);
       }
     };
-    console.log(!channel_info_with_accounting);
     if (!channel_info_with_accounting) {
       fetchDataAsync();
     }
@@ -88,7 +89,6 @@ const MissionControlDev = () => {
 
       setWallet_balance_info(resp.message)
     }
-    console.log(!wallet_balance_info);
     if(!wallet_balance_info){
         fetchDataAsync();
     }
@@ -106,7 +106,6 @@ React.useEffect(() => {
       let resp = await call_grpc_ops(req_obj);
       set_generic_node_info(resp.message)
     }
-    console.log(generic_node_info);
     if(!generic_node_info)
       {
         fetchDataAsync();
@@ -114,6 +113,47 @@ React.useEffect(() => {
     
 },[])
 
+React.useEffect(() => {
+  const fetchDataAsync = async () => {
+    let { start_date, end_date } = getDateRange(60);
+    let req_obj = {
+      params  : {user_id: user_id,
+      unique_node_id: selectec_node_id,
+      start_date: start_date}
+    }
+    let resp = await get_rebalance_fee(req_obj);
+    set_rebalance_cost(resp.message)
+  }
+  if(!generic_node_info)
+    {
+      fetchDataAsync();
+    }
+  
+},[])
+
+
+
+
+
+React.useEffect(() => {
+  const fetchDataAsync = async () => {
+    let { start_date, end_date } = getDateRange(60);
+    let req_obj = {
+      params  : {user_id: user_id,
+      unique_node_id: selectec_node_id,
+      start_date: start_date, end_date : end_date}
+    }
+    let resp = await get_forwards(req_obj);
+   let fee_earned = get_fee_earned_from_forwards(resp.message);
+   setfee_earned(fee_earned)
+  //  set_rebalance_cost(resp.message)
+  }
+  if(!generic_node_info)
+    {
+      fetchDataAsync();
+    }
+  
+},[])
 
   const data = {
     labels,
@@ -218,28 +258,40 @@ React.useEffect(() => {
             <div className="d-flex justify-content-between align-items-center w-100">
               <div className="box box1">
                 <table className="w-100">
+                  <thead>
+                    <tr>
                   <th>Revenue</th>
+                  </tr>
+                  </thead>
                   <tr>
                     <td>Forwarding Fee</td>
-                    <td className="text-right">{(Math.floor(channle_opening_fee_earned?.fee_earned/1000))?.toLocaleString()}</td>
+                    <td className="text-right">{(Math.floor(fee_earned?.fee_earned))?.toLocaleString()}</td>
                   </tr>
-                  <th>Expenses</th>
+                  <thead>
+                    <tr>
+                  <th>Expenses</th> </tr></thead>
                   <tr>
-                    <td>Rebalancing</td>
-                    <td className="text-right">-</td>
+                    <td>Rebalancing Cost</td>
+                    <td className="text-right">{rebalance_cost?.total_fee_in_sats?.toLocaleString()}</td>
                   </tr>
                   <tr>
-                    <td>Open/Close Channels</td>
+                    <td>Open Channels</td>
                     <td className="text-right">{channle_opening_fee_earned?.channel_opening_cost?.toLocaleString()}</td>
                   </tr>
                   <tr>
-                    <td>Total</td>
-                    <td className="text-right">{channle_opening_fee_earned?.channel_opening_cost.toLocaleString()}</td>
+                    <td>Close Channels</td>
+                    <td className="text-right">-</td>
                   </tr>
-                  <th>Profit</th>
                   <tr>
                     <td>Total</td>
-                    <td className="text-right">-</td>
+                    <td className="text-right">{(rebalance_cost?.total_fee_in_sats +channle_opening_fee_earned?.channel_opening_cost).toLocaleString()}</td>
+                  </tr>
+                  <thead>
+                    <tr>
+                  <th>Profit</th></tr></thead>
+                  <tr>
+                    <td>Total</td>
+                    <td className="text-right">{(Math.floor((fee_earned?.fee_earned)-(rebalance_cost?.total_fee_in_sats +channle_opening_fee_earned?.channel_opening_cost))).toLocaleString()}</td>
                   </tr>
                   <tr>
                     <td>Gross Profit Margin</td>
@@ -307,22 +359,24 @@ React.useEffect(() => {
             <div className="d-flex justify-content-between align-items-center w-100 mt-4">
               <div className="box box3">
                 <table className="w-100">
-                  <th>Summary</th>
+                <thead>
+                    <tr>
+                  <th>Summary</th></tr></thead>
                   <tr>
                     <td className="summary_top">Revenue</td>
-                    <td className="text-right">{(Math.floor(channle_opening_fee_earned?.fee_earned/1000))?.toLocaleString()}</td>
+                    <td className="text-right">{(Math.floor(fee_earned?.fee_earned))?.toLocaleString()}</td>
                   </tr>
                   <tr>
                     <td>Amount Forwarded</td>
-                    <td className="text-right">{channle_opening_fee_earned?.total_forwarded_sats?.toLocaleString()}</td>
+                    <td className="text-right">{fee_earned?.amount_forwarded?.toLocaleString()}</td>
                   </tr>
                   <tr>
                     <td>Transaction</td>
-                    <td className="text-right">-</td>
+                    <td className="text-right">{(Math.floor(fee_earned?.total_forwards))?.toLocaleString()}</td>
                   </tr>
                   <tr>
                     <td>Average Fee</td>
-                    <td className="text-right">-</td>
+                    <td className="text-right">{(Math.floor(fee_earned?.average_fee_earned))?.toLocaleString()}</td>
                   </tr>
                 </table>
               </div>

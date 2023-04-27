@@ -729,13 +729,33 @@ export const extract_fee_earned_channel_opening_cost = (extract_fee_earned) =>{
   return return_data;
 }
 
+export const get_fee_earned_from_forwards = (forwards) =>{
+    try{
+        let return_data = {amount_forwarded:0,fee_earned : 0, total_forwards : forwards.length, average_fee_earned : 0};
+        for (var item in forwards){
+           
+            if(forwards[item]?.fee){
+                return_data["fee_earned"] +=Number(forwards[item]?.fee);
+            }
+             if(forwards[item]?.amt_out){
+                return_data["amount_forwarded"] +=Number(forwards[item]?.amt_out);
+            }
+        }
+        return_data["average_fee_earned"] = return_data["fee_earned"]/return_data["total_forwards"];
+        return return_data;
+    }
+    catch(err){
+        
+    }
+}
 
-export const getDateRange = () => {
+
+export const getDateRange = (range) => {
     const endDate = new Date();
     const startDate = new Date();
   
     // Subtract 7 days from the current date
-    startDate.setDate(startDate.getDate() - 7);
+    startDate.setDate(startDate.getDate() - range);
   
     return {
       start_date: startDate.toISOString().split('T')[0],
