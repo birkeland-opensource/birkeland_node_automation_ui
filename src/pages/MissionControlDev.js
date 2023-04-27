@@ -67,8 +67,8 @@ const MissionControlDev = () => {
       };
       let resp = await get_accounting_info(get_object);
       if (resp?.success) {
-        setchannel_info_with_accounting(resp?.message);
-        let fee_and_cost = extract_fee_earned_channel_opening_cost(resp?.message);
+        setchannel_info_with_accounting(resp?.message?.channels);
+        let fee_and_cost = extract_fee_earned_channel_opening_cost(resp?.message?.channels);
         setChannle_opening_fee_earned(fee_and_cost);
       }
     };
@@ -203,8 +203,8 @@ React.useEffect(() => {
                   <th>Outbond</th>
                   <th>Total Received</th>
                   <th>Total Sent</th>
-                  <th>Fee Rate</th>
-                  <th>Net Fees Earned</th>
+                  {/* <th>Fee Rate</th>
+                  <th>Net Fees Earned</th> */}
                 </tr>
               </thead>
               {channel_info_with_accounting?.map((item, index) => (
@@ -217,8 +217,8 @@ React.useEffect(() => {
                   <td>{Number(item?.local_balance)?.toLocaleString()}</td>
                   <td>{Number(item?.total_satoshis_received)?.toLocaleString()}</td>
                   <td>{Number(item?.total_satoshis_sent)?.toLocaleString()}</td>
-                  <td>{item?.policies?.node1_policy?.fee_rate_milli_msat}</td>
-                  <td>{(item?.outgoing_info?.total_fee_mtokens / 1000) ? Math.floor((item?.outgoing_info?.total_fee_mtokens / 1000)) : 0}</td>
+                  {/* <td>{item?.policies?.node1_policy?.fee_rate_milli_msat}</td>
+                  <td>{(item?.outgoing_info?.total_fee_mtokens / 1000) ? Math.floor((item?.outgoing_info?.total_fee_mtokens / 1000)) : 0}</td> */}
                 </tr>
               ))}
             </table>
