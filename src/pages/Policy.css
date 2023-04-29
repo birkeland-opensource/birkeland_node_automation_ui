@@ -1,8 +1,9 @@
 .policy{
+    width: 100%;
     padding-bottom: 70px;
 }
 .data_detail{
-    height: 900px;
+    height: 1080px;
     padding: 40px 145px;
     display: flex;
     align-items: center;

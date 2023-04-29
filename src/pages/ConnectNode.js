@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 
 import {
@@ -13,17 +13,19 @@ import {
   ModalFooter,
   Flex,
   Switch,
+  Box,
 } from "@chakra-ui/react";
-//import "./Connect.css"
-import Header1 from "./Header1";
+import "./Connect.css"
+import Header1 from "../components/Header1";
 import { titleColor } from "../utlis/color_themes";
 import { delete_one_node_info_service, get_all_node_info_service, save_node_info_service } from "../services/api/node_info_service";
 import { useSelector } from 'react-redux';
+import GenericLoadingComponent from "../components/GenericLoadingComponent";
 
 
 const ConnectNode = (props) => {
   const {user_id,selected_node_id,selected_node_alias,set_selected_node_id,set_selected_node_alias} = props;
-
+  const [showloadingDialog, setShowloadingDialog] = useState(false);
   const ACTION = {
     SET_ADD_NODE_MODAL_DIALOG_STATE: "SET_ADD_NODE_MODAL_DIALOG_STATE",
     SET_NODE_ALIAS: "SET_NODE_ALIAS",
@@ -71,6 +73,7 @@ const ConnectNode = (props) => {
       let get_object = {
         params : {user_id : user_id}
       }
+      setShowloadingDialog(true);
       let resp = await get_all_node_info_service(get_object);
      
       if(resp.success){
@@ -78,9 +81,13 @@ const ConnectNode = (props) => {
           type: ACTION.SET_SAVED_NODES,
           payload: resp?.message?.message,
         });
+        setShowloadingDialog(false);
       }
+     
+      else{
+        setShowloadingDialog(false);
       }
-    
+    }
     fetchData();
   }, [state?.show_add_node_modal]);
 
@@ -147,15 +154,16 @@ const ConnectNode = (props) => {
   }
 
   return (
-    <div className="pb-97">
+    <div className="pb-97 ">
       <Header1 />
-      <div className="data-details mission_control">
+      <div className="data-details mission_control full-screen">
         <div>
           <h1>Manage Your Nodes</h1>
         </div>
         <div className="container">
-        {state?.saved_nodes?.length >0 &&  <div>
+      <div>
             <h2>Active Node - {selected_node_alias}</h2>
+            <Box py={10}>
             <table className="table">
               <thead>
                 <tr>
@@ -180,7 +188,8 @@ const ConnectNode = (props) => {
                 </tr>
               ))}
             </table>
-          </div>}
+            </Box>
+          </div>
 
           <Button
             bg={"yellow.500"}
@@ -293,6 +302,11 @@ const ConnectNode = (props) => {
           </ModalContent>
         </Modal>
       )}
+       {showloadingDialog &&
+      <GenericLoadingComponent
+        loadingmessage={"Regitsering "}
+        showloadingDialog={showloadingDialog}
+      /> }
     </div>
   );
 };

@@ -19,7 +19,7 @@ import Security from './pages/Security';
 import Peer from './pages/Peer';
 import FundChannel from './pages/FundChannel';
 import LightningNode from './components/LightningNode';
-import ConnectNode from './components/ConnectNode';
+import ConnectNode from './pages/ConnectNode';
 import { mapDispatchToProps, mapStateToProps } from "./redux_reducer/props_and_dispatch";
 import { connect } from "react-redux";
 import { useState } from 'react';

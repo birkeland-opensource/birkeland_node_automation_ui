@@ -3,10 +3,11 @@ import Header1 from '../components/Header1';
 import './Policy.css'
 import { useSelector } from 'react-redux';
 import { get_policy_info, save_policy_info } from '../services/api/policy_management_service';
+import GenericLoadingComponent from '../components/GenericLoadingComponent';
 
 
 const Policy = () => {
-
+    const [showloadingDialog, setShowloadingDialog] = useState(false);
     const user_id = useSelector((state) => state?.user_id);
     const selectec_node_id = useSelector((state) => state?.selected_node_id);
 
@@ -54,13 +55,17 @@ const Policy = () => {
             params  : {user_id: user_id,
                 node_id: selectec_node_id,
           }}
+          setShowloadingDialog(true);
           let resp = await get_policy_info(req_obj);
-          console.log(resp?.message?.preferred_state);
           if(resp?.success){
             dispatch({
                 type: ACTION.SET_ALL_VALUES,
                 payload: resp?.message?.preferred_state,
               });
+              setShowloadingDialog(false);
+          }
+          else{
+            setShowloadingDialog(false);
           }
           
         }
@@ -197,6 +202,11 @@ const Policy = () => {
                     <button className="save-change-btn" onClick={() =>on_save_changes_btn_clicked()}>Save Changes</button>
                 </div>
             </div>
+            {showloadingDialog &&
+      <GenericLoadingComponent
+        loadingmessage={"Regitsering "}
+        showloadingDialog={showloadingDialog}
+      /> }
         </div>
     )
 }

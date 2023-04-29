@@ -221,7 +221,7 @@ React.useEffect(() => {
         <div>
           <h1>Mission Control - {generic_node_info?.alias}</h1>
         </div>
-        <div className="container">
+        <div className="mc_container">
           <div>
             <h2>Channel Overview</h2>
             <table className="table">

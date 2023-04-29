@@ -18,7 +18,9 @@
     font-weight: 700;
     line-height: 24px;
 }
-.mission_control .mc_container{
+.mission_control .container{
+    height: 1080px;
+    width: 100%;
     margin-top: 40px;
     
 }
@@ -32,6 +34,7 @@
     background: #221956;
     border: none;
 }
+
 .mission_control .table td{
    padding: 11px 16px;
    color: #FFFFFF;
