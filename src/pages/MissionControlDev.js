@@ -230,10 +230,11 @@ React.useEffect(() => {
                   <th>Alias</th>
                   <th>Capacity</th>
                   <th>Inbound</th>
-                  <th>Ratio</th>
+                 
                   <th>Outbond</th>
                   <th>Total Received</th>
                   <th>Total Sent</th>
+                  <th>Ratio</th>
                   {/* <th>Fee Rate</th>
                   <th>Net Fees Earned</th> */}
                 </tr>
@@ -243,13 +244,15 @@ React.useEffect(() => {
                   <td>{item?.peer_alias}</td>
                   <td>{Number(item?.capacity)?.toLocaleString()}</td>
                   <td className="gradient_text">{Number(item?.remote_balance)?.toLocaleString()}</td>
-                  <td>---|----</td>
+                  
                   {/* <td>{(item?.remote_balance / (item?.local_balance+item?.remote_balance))*100}</td> */}
                   <td>{Number(item?.local_balance)?.toLocaleString()}</td>
                   <td>{Number(item?.total_satoshis_received)?.toLocaleString()}</td>
                   <td>{Number(item?.total_satoshis_sent)?.toLocaleString()}</td>
-                  {/* <td>{item?.policies?.node1_policy?.fee_rate_milli_msat}</td>
-                  <td>{(item?.outgoing_info?.total_fee_mtokens / 1000) ? Math.floor((item?.outgoing_info?.total_fee_mtokens / 1000)) : 0}</td> */}
+                  <td> <input type="range" className="w-100 range-input1" defaultValue={Math.floor((Number(item?.remote_balance)/(Number(item?.remote_balance) +Number(item?.local_balance)))*100)} style={{ background: `linear-gradient(to right, #FEA321 0%, #FEA321 ${Math.floor((Number(item?.remote_balance)/(Number(item?.remote_balance) +Number(item?.local_balance)))*100)}%, #221956 ${Math.floor((Number(item?.remote_balance)/(Number(item?.remote_balance) +Number(item?.local_balance)))*100)}%, #221956 100%)` }} />
+</td>
+                   {/* <td>{Math.floor((Number(item?.local_balance)/(Number(item?.remote_balance) +Number(item?.local_balance)))*100)}</td> */}
+              {/*    <td>{(item?.outgoing_info?.total_fee_mtokens / 1000) ? Math.floor((item?.outgoing_info?.total_fee_mtokens / 1000)) : 0}</td> */}
                 </tr>
               ))}
             </table>
