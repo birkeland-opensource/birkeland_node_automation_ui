@@ -1,10 +1,67 @@
 import React, { useState } from 'react'
 import Header1 from '../components/Header1';
 import './Policy.css'
+import { useSelector } from 'react-redux';
+
 
 const Policy = () => {
-    const [p1, setP1] = useState(75)
-    const [p2, setP2] = useState(55)
+
+    const user_id = useSelector((state) => state?.user_id);
+    const selectec_node_id = useSelector((state) => state?.selected_node_id);
+
+    const ACTION = {
+        SET_MAXIMUM_CHANNEL_IMBALANCE_MEASURE: "SET_MAXIMUM_CHANNEL_IMBALANCE_MEASURE",
+        SET_FREQUENCY_OF_REBALANCING: "SET_FREQUENCY_OF_REBALANCING",
+        SET_PASSIVE_REBALANCING_FLAG: "SET_PASSIVE_REBALANCING_FLAG",
+        SET_OPERATE_ON_CLEARNET_FLAG: "SET_OPERATE_ON_CLEARNET_FLAG",
+        SET_OPERATE_ON_TOR_FLAG: "SET_OPERATE_ON_TOR_FLAG",
+        SET_COLLECT_ANALYTICS_ON_PEERS_FLAG: "SET_COLLECT_ANALYTICS_ON_PEERS_FLAG",
+        SET_SHARE_DATA_WITH_PEERS_FLAG: "SET_SHARE_DATA_WITH_PEERS_FLAG",
+        SET_AUTO_CONNECT_NEW_PEERS_FLAG: "SET_AUTO_CONNECT_NEW_PEERS_FLAG"
+      };
+
+
+      const reducer = (state, action) => {
+        switch (action.type) {
+          case ACTION.SET_MAXIMUM_CHANNEL_IMBALANCE_MEASURE:
+            return { ...state, maximum_channel_imbalance_measure: action.payload };
+          case ACTION.SET_FREQUENCY_OF_REBALANCING:
+            return { ...state, frequency_of_rebalancing: action.payload };
+          case ACTION.SET_PASSIVE_REBALANCING_FLAG:
+            return { ...state, passive_rebalancing_flag: action.payload };
+          case ACTION.SET_OPERATE_ON_CLEARNET_FLAG:
+            return { ...state, operate_on_clearnet_flag: action.payload };
+          case ACTION.SET_OPERATE_ON_TOR_FLAG:
+            return { ...state, operate_on_tor_flag: action.payload };
+          case ACTION.SET_COLLECT_ANALYTICS_ON_PEERS_FLAG:
+            return { ...state, collect_analytics_on_peers_flag: action.payload };
+          case ACTION.SET_SHARE_DATA_WITH_PEERS_FLAG:
+            return { ...state, share_data_with_peers_flag: action.payload };
+         case ACTION.SET_AUTO_CONNECT_NEW_PEERS_FLAG:
+            return { ...state, auto_connect_new_peers_flag: action.payload };
+          default:
+            return state;
+        }
+      };
+
+      const [state, dispatch] = React.useReducer(reducer, {
+        maximum_channel_imbalance_measure: 90,
+        frequency_of_rebalancing: 2,
+        passive_rebalancing_flag: false,
+        operate_on_clearnet_flag : false,
+        operate_on_tor_flag: false,
+        collect_analytics_on_peers_flag: false,
+        share_data_with_peers_flag: false,
+        auto_connect_new_peers_flag: false,
+      });
+
+      const on_save_changes_btn_clicked = async() =>{
+        let data_to_save = {"preferred_state" :state, "user_id" : user_id,node_id:selectec_node_id }
+       
+        console.log(data_to_save);
+      }
+
+      
     return (
         <div className='policy'>
             <Header1 />
@@ -21,10 +78,10 @@ const Policy = () => {
                                 <td className="input-row">
                                     <div className="cybot d-flex card-content flex-column">
                                         <div className='w-100 position-relative custom-slide-input'>
-                                            <input type="range" onChange={e => setP1(e.target.value)} className="w-100 range-input" value={p1} style={{ background: `linear-gradient(to right, #FEA321 0%, #FEA321 ${p1}%, #221956 ${p1}%, #221956 100%)` }} />
+                                            <input type="range" onChange={e => dispatch({type: ACTION.SET_MAXIMUM_CHANNEL_IMBALANCE_MEASURE,payload: e.target.value})} className="w-100 range-input" value={state?.maximum_channel_imbalance_measure} style={{ background: `linear-gradient(to right, #FEA321 0%, #FEA321 ${state?.maximum_channel_imbalance_measure}%, #221956 ${state?.maximum_channel_imbalance_measure}%, #221956 100%)` }} />
                                         </div>
                                         <div className="d-flex justify-content-between progress-content">
-                                            <p id='rangeValue'>{p1}%</p>
+                                            <p id='rangeValue'>{state?.maximum_channel_imbalance_measure}%</p>
                                         </div>
                                     </div>
                                 </td>
@@ -34,10 +91,10 @@ const Policy = () => {
                                 <td className="input-row">
                                     <div className="cybot d-flex card-content flex-column">
                                         <div className='w-100 position-relative custom-slide-input'>
-                                            <input type="range" onChange={e => setP2(e.target.value)} className="w-100 range-input1" value={p2} style={{ background: `linear-gradient(to right, #FEA321 0%, #FEA321 ${p2}%, #221956 ${p2}%, #221956 100%)` }} />
+                                            <input type="range" onChange={e =>  dispatch({type: ACTION.SET_FREQUENCY_OF_REBALANCING,payload: e.target.value})} className="w-100 range-input1" value={state?.frequency_of_rebalancing} style={{ background: `linear-gradient(to right, #FEA321 0%, #FEA321 ${state?.frequency_of_rebalancing}%, #221956 ${state?.frequency_of_rebalancing}%, #221956 100%)` }} />
                                         </div>
                                         <div className="d-flex justify-content-between progress-content">
-                                            <p>Every {p2/10} hours</p>
+                                            <p>Every {Math.round(state?.frequency_of_rebalancing/10)} hours</p>
                                         </div>
                                     </div>
                                 </td>
@@ -47,7 +104,7 @@ const Policy = () => {
                                 <td className="input-row">
                                     <span className="toggle-container">
                                         <label className="toggleswitch">
-                                            <input type="checkbox" />
+                                            <input type="checkbox" checked={state?.passive_rebalancing_flag} onChange={e =>  dispatch({type: ACTION.SET_PASSIVE_REBALANCING_FLAG,payload: e.target.checked})}/>
                                             <span className="toggle-slider"></span>
 
                                         </label>
@@ -59,7 +116,7 @@ const Policy = () => {
                                 <td className="input-row">
                                     <span className="toggle-container">
                                         <label className="toggleswitch">
-                                            <input type="checkbox" />
+                                            <input type="checkbox" checked={state?.operate_on_clearnet_flag} onChange={e =>  dispatch({type: ACTION.SET_OPERATE_ON_CLEARNET_FLAG,payload: e.target.checked})} />
                                             <span className="toggle-slider"></span>
                                         </label>
                                     </span>
@@ -70,7 +127,7 @@ const Policy = () => {
                                 <td className="input-row">
                                     <span className="toggle-container">
                                         <label className="toggleswitch">
-                                            <input type="checkbox" />
+                                            <input type="checkbox" checked={state?.operate_on_tor_flag} onChange={e =>  dispatch({type: ACTION.SET_OPERATE_ON_TOR_FLAG,payload: e.target.checked})}/>
                                             <span className="toggle-slider"></span>
                                         </label>
                                     </span>
@@ -81,7 +138,7 @@ const Policy = () => {
                                 <td className="input-row">
                                     <span className="toggle-container">
                                         <label className="toggleswitch">
-                                            <input type="checkbox" />
+                                            <input type="checkbox" checked={state?.collect_analytics_on_peers_flag} onChange={e =>  dispatch({type: ACTION.SET_COLLECT_ANALYTICS_ON_PEERS_FLAG,payload: e.target.checked})}/>
                                             <span className="toggle-slider"></span>
                                         </label>
                                     </span>
@@ -92,7 +149,7 @@ const Policy = () => {
                                 <td className="input-row">
                                     <span className="toggle-container">
                                         <label className="toggleswitch">
-                                            <input type="checkbox" />
+                                            <input type="checkbox" checked={state?.share_data_with_peers_flag} onChange={e =>  dispatch({type: ACTION.SET_SHARE_DATA_WITH_PEERS_FLAG,payload: e.target.checked})}/>
                                             <span className="toggle-slider"></span>
                                         </label>
                                     </span>
@@ -103,7 +160,7 @@ const Policy = () => {
                                 <td className="input-row">
                                     <span className="toggle-container">
                                         <label className="toggleswitch">
-                                            <input type="checkbox" />
+                                            <input type="checkbox" checked={state?.auto_connect_new_peers_flag} onChange={e =>  dispatch({type: ACTION.SET_AUTO_CONNECT_NEW_PEERS_FLAG,payload: e.target.checked})}/>
                                             <span className="toggle-slider"></span>
                                         </label>
                                     </span>
@@ -111,7 +168,7 @@ const Policy = () => {
                             </tr>
                         </table>
                     </div>
-                    <button className="save-change-btn">Save Changes</button>
+                    <button className="save-change-btn" onClick={() =>on_save_changes_btn_clicked()}>Save Changes</button>
                 </div>
             </div>
         </div>

@@ -22,35 +22,38 @@ import FundChannel from './pages/FundChannel';
 import LightningNode from './components/LightningNode';
 import useAuthToken from './context/useAuthToken';
 import ConnectNode from './components/ConnectNode';
+import { mapDispatchToProps, mapStateToProps } from "./redux_reducer/props_and_dispatch";
+import { connect } from "react-redux";
+import { useState } from 'react';
+import MissionControlDev from './pages/MissionControlDev';
 
+const ConnectedConnectNode = connect(mapStateToProps,mapDispatchToProps)(ConnectNode);
+const ConnectedLogin = connect(mapStateToProps,mapDispatchToProps)(Login);
 function App() {
-  const {setToken, token} = useAuthToken();
-  console.log(token);
+  
+  const [token, settoken] = useState(sessionStorage.getItem('token'))
   if (!token) {
-   
     return (
-      <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Registration setToken={setToken}/>}/> 
-          <Route path="/register" element={<Registration setToken={setToken}/>} />
-          <Route path="/login" element={<Login setToken={setToken}/>} />
-          <Route path="/register" element={<Registration />} />
-          <Route path="/dashboard" element={<MissionControl />} />
-          <Route path="/connect" element={<ConnectNode />} />
-          <Route path="*" element={<Navigate to="/" />} /> 
-        </Routes>
+
+       <div className="App">
+    <BrowserRouter>
+       <Routes>
+        <Route path="/" element={<ConnectedLogin />} />
+         <Route path="*" element={<Navigate to="/" />} />  
+       </Routes>
       </BrowserRouter>
       </div>
-    );
-  }
+   );
+   }
 
 
   return (
     <div className="App">
           <BrowserRouter basename='/'>
             <Routes>
-              <Route path="/" element={<Login />} />
+              
+              <Route path="/" element={<MissionControlDev />} />
+              <Route path="/connect" element={<ConnectedConnectNode />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/wallet" element={<BitcoinWallet />} />
               <Route path="/seedphrase" element={<SeedPhrase />} />
@@ -65,7 +68,7 @@ function App() {
               <Route path="/liquidity" element={<Liquidity />} />
               <Route path="/loading" element={<Loader1 />} />
               <Route path="/todashboard" element={<ToDashboard />} />
-              <Route path="/dashboard" element={<MissionControl />} />
+              <Route path="/dashboard" element={<MissionControlDev />} />
               <Route path="/policy" element={<Policy />} />
               <Route path="/accounting" element={<Accounting />} />
               <Route path="/security" element={<Security />} />
