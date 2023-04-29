@@ -14,7 +14,7 @@ import { Line } from "react-chartjs-2";
 import "./MissionControl.css";
 import Header1 from "../components/Header1";
 import { useSelector } from "react-redux";
-import { call_grpc_ops, get_accounting_info, get_forwards, get_rebalance_fee } from "../services/api/lightning_node_communication_service";
+import { call_grpc_ops, get_accounting_info, get_closed_channels_fee, get_forwards, get_rebalance_fee } from "../services/api/lightning_node_communication_service";
 import { extract_fee_earned_channel_opening_cost, getDateRange, get_fee_earned_from_forwards } from "../services/support_functions";
 import { Center, Grid, GridItem } from '@chakra-ui/react'
 import GenericLoadingComponent from "../components/GenericLoadingComponent";
@@ -52,7 +52,8 @@ const MissionControlDev = () => {
   const [wallet_balance_info, setWallet_balance_info] = useState(null);
   const [generic_node_info, set_generic_node_info] = useState(null);
   const [rebalance_cost, set_rebalance_cost] = useState(null);
-  const [fee_earned, setfee_earned] = useState(null)
+  const [fee_earned, setfee_earned] = useState(null);
+  const [channel_closing_info, setchannel_closing_info] = useState(null)
     
 
   const user_id = useSelector((state) => state?.user_id);
@@ -148,12 +149,38 @@ React.useEffect(() => {
       set_rebalance_cost({})
     }
   }
-  if(!generic_node_info)
+  if(!rebalance_cost)
     {
       fetchDataAsync();
     }
   
 },[])
+
+
+
+React.useEffect(() => {
+  const channelClosingInfo = async () => {
+    let req_obj = {
+      params  : {user_id: user_id,
+      unique_node_id: selectec_node_id}
+    }
+    let resp = await get_closed_channels_fee(req_obj);
+    if(resp.success){
+      setchannel_closing_info(resp.message)
+     // set_rebalance_cost(resp.message)
+    }
+    else{
+      setchannel_closing_info({});
+     // set_rebalance_cost({})
+    }
+  }
+  if(!channel_closing_info)
+    {
+      channelClosingInfo();
+    }
+  
+},[])
+
 
 
 
@@ -314,19 +341,19 @@ React.useEffect(() => {
                     <td className="text-right">{channle_opening_fee_earned?.channel_opening_cost?.toLocaleString()}</td>
                   </tr>
                   <tr>
-                    <td>Close Channels</td>
-                    <td className="text-right">-</td>
+                    <td>Closed Channels</td>
+                    <td className="text-right">{channel_closing_info?.closing_fee?.toLocaleString()}</td>
                   </tr>
                   <tr>
                     <td>Total</td>
-                    <td className="text-right">{(rebalance_cost?.total_fee_in_sats +channle_opening_fee_earned?.channel_opening_cost).toLocaleString()}</td>
+                    <td className="text-right">{(rebalance_cost?.total_fee_in_sats +channle_opening_fee_earned?.channel_opening_cost + channel_closing_info?.closing_fee).toLocaleString()}</td>
                   </tr>
                   <thead>
                     <tr>
                   <th>Profit</th></tr></thead>
                   <tr>
                     <td>Total</td>
-                    <td className="text-right">{(Math.floor((fee_earned?.fee_earned)-(rebalance_cost?.total_fee_in_sats +channle_opening_fee_earned?.channel_opening_cost))).toLocaleString()}</td>
+                    <td className="text-right">{(Math.floor((fee_earned?.fee_earned)-(rebalance_cost?.total_fee_in_sats +channle_opening_fee_earned?.channel_opening_cost + channel_closing_info?.closing_fee))).toLocaleString()}</td>
                   </tr>
                   <tr>
                     <td>Gross Profit Margin</td>

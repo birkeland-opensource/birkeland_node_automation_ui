@@ -45,3 +45,16 @@ export const get_rebalance_fee = async (get_object) =>{
     }
 
 }
+
+export const get_closed_channels_fee = async (get_object) =>{
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/accounting/get_closed_channels_fee`, get_object);
+   
+        return {success: true, message: response.data?.message};
+    }   
+    catch(err){
+        return {success: false, message: err}
+    }
+
+}
+
