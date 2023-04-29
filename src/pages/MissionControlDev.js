@@ -16,6 +16,7 @@ import Header1 from "../components/Header1";
 import { useSelector } from "react-redux";
 import { call_grpc_ops, get_accounting_info, get_forwards, get_rebalance_fee } from "../services/api/lightning_node_communication_service";
 import { extract_fee_earned_channel_opening_cost, getDateRange, get_fee_earned_from_forwards } from "../services/support_functions";
+import GenericLoadingComponent from "../components/GenericLoadingComponent";
 
 ChartJS.register(
   CategoryScale,
@@ -44,6 +45,7 @@ const labels = [
 ];
 
 const MissionControlDev = () => {
+  const [showloadingDialog, setShowloadingDialog] = useState(true);
   const [channel_info_with_accounting, setchannel_info_with_accounting] =useState(null);
   const [channle_opening_fee_earned, setChannle_opening_fee_earned] = useState(null);
   const [wallet_balance_info, setWallet_balance_info] = useState(null);
@@ -155,6 +157,12 @@ React.useEffect(() => {
   
 },[])
 
+React.useEffect(() => {
+  if(channel_info_with_accounting && wallet_balance_info && generic_node_info && rebalance_cost && fee_earned){
+    setShowloadingDialog(false)
+  }
+},[channel_info_with_accounting,wallet_balance_info,generic_node_info,rebalance_cost,fee_earned])
+
   const data = {
     labels,
     datasets: [
@@ -251,7 +259,7 @@ React.useEffect(() => {
             </div>
           </div>
         </div>
-        {channle_opening_fee_earned && (
+
         <div className="container2">
           <h2 className="mb-0">Analytics</h2>
           <div className="analytics">
@@ -300,7 +308,6 @@ React.useEffect(() => {
                 </table>
               </div>
               <div className="box2 graph">
-                {/* <img src={require("../assets/icons/Graph.png")} alt="" /> */}
                 <h3>Revenue & Expenses Graph</h3>
                 <Line
                   data={{
@@ -387,8 +394,13 @@ React.useEffect(() => {
               </div>
             </div>
           </div>
-        </div> )}
+        </div> 
       </div>
+      {showloadingDialog &&
+      <GenericLoadingComponent
+        loadingmessage={"Regitsering "}
+        showloadingDialog={showloadingDialog}
+      /> }
     </div>
   );
 };

@@ -13,14 +13,12 @@ import Loader1 from './components/Loader1';
 import Loader2 from './components/Loader2';
 import Scanner from './components/Scanner';
 import ToDashboard from './components/ToDashboard';
-import MissionControl from './pages/MissionControl';
 import Policy from './pages/Policy';
 import Accounting from './pages/Accounting';
 import Security from './pages/Security';
 import Peer from './pages/Peer';
 import FundChannel from './pages/FundChannel';
 import LightningNode from './components/LightningNode';
-import useAuthToken from './context/useAuthToken';
 import ConnectNode from './components/ConnectNode';
 import { mapDispatchToProps, mapStateToProps } from "./redux_reducer/props_and_dispatch";
 import { connect } from "react-redux";
@@ -29,6 +27,7 @@ import MissionControlDev from './pages/MissionControlDev';
 
 const ConnectedConnectNode = connect(mapStateToProps,mapDispatchToProps)(ConnectNode);
 const ConnectedLogin = connect(mapStateToProps,mapDispatchToProps)(Login);
+const ConnectedRegister = connect(mapStateToProps,mapDispatchToProps)(Registration);
 function App() {
   
   const [token, settoken] = useState(sessionStorage.getItem('token'))
@@ -40,7 +39,7 @@ function App() {
        <Routes>
         <Route path="/" element={<ConnectedLogin />} />
         <Route path="/login" element={<ConnectedLogin />} />
-        <Route path="/register" element={<Registration />} />
+        <Route path="/register" element={<ConnectedRegister />} />
          <Route path="*" element={<Navigate to="/" />} />  
        </Routes>
       </BrowserRouter>
@@ -74,6 +73,7 @@ function App() {
               <Route path="/policy" element={<Policy />} />
               <Route path="/accounting" element={<Accounting />} />
               <Route path="/security" element={<Security />} />
+              <Route path="*" element={<Navigate to="/" />} />  
             </Routes>
           </BrowserRouter>  
     </div>
