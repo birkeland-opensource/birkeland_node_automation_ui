@@ -39,6 +39,8 @@ function App() {
     <BrowserRouter>
        <Routes>
         <Route path="/" element={<ConnectedLogin />} />
+        <Route path="/login" element={<ConnectedLogin />} />
+        <Route path="/register" element={<Registration />} />
          <Route path="*" element={<Navigate to="/" />} />  
        </Routes>
       </BrowserRouter>

@@ -41,7 +41,7 @@ const Login = (props) => {
             <div className="registration">
                 <img className="logo" src={require("../assets/icons/Shield Check.png")} width="185px" height="43px" alt="" />
                 <h1>Log in to your account</h1>
-                <p>Don't have an account?&nbsp;<a href="/login" onClick={() => {
+                <p>Don't have an account?&nbsp;<a href="/register" onClick={() => {
           navigate("/register")
         }}>Sign up</a></p>
                 <span>

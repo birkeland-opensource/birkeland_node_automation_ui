@@ -33,6 +33,7 @@
 }
   
 input[type=text],[type=password] {
+    color: black;
     margin:8px 0;
     align-items: center;
     padding: 12px 16px;
@@ -44,6 +45,7 @@ input[type=text],[type=password] {
     font-weight: 400;
  }
 input[type=text]{
+    color: black;
     background-image: url(../assets/icons/message.svg);
     display: inline-block;
     background-repeat: no-repeat;
@@ -119,13 +121,16 @@ input[type=checkbox]{
     }
 
     input[type=text], [type=password] {
-        width: 100%; /* Adjust width for mobile devices */
-        background-position: calc(100% - 16px) 15px; /* Adjust background position for mobile */
+      
+         width: 100%;  /*Adjust width for mobile devices */
+        background-position: calc(100% - 16px) 15px; /*Adjust background position for mobile */
     }
 
     .yellow_button {
         width: 100%; /* Adjust width for mobile devices */
+        background-position: calc(100% - 16px) 15px; /* Adjust background position for mobile */
     }
+  
 
     .checkbox {
         flex-direction: column; /* Stack elements vertically on mobile */

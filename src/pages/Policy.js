@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header1 from '../components/Header1';
 import './Policy.css'
 import { useSelector } from 'react-redux';
+import { get_policy_info, save_policy_info } from '../services/api/policy_management_service';
 
 
 const Policy = () => {
@@ -17,7 +18,8 @@ const Policy = () => {
         SET_OPERATE_ON_TOR_FLAG: "SET_OPERATE_ON_TOR_FLAG",
         SET_COLLECT_ANALYTICS_ON_PEERS_FLAG: "SET_COLLECT_ANALYTICS_ON_PEERS_FLAG",
         SET_SHARE_DATA_WITH_PEERS_FLAG: "SET_SHARE_DATA_WITH_PEERS_FLAG",
-        SET_AUTO_CONNECT_NEW_PEERS_FLAG: "SET_AUTO_CONNECT_NEW_PEERS_FLAG"
+        SET_AUTO_CONNECT_NEW_PEERS_FLAG: "SET_AUTO_CONNECT_NEW_PEERS_FLAG",
+        SET_ALL_VALUES: "SET_ALL_VALUES",
       };
 
 
@@ -39,10 +41,33 @@ const Policy = () => {
             return { ...state, share_data_with_peers_flag: action.payload };
          case ACTION.SET_AUTO_CONNECT_NEW_PEERS_FLAG:
             return { ...state, auto_connect_new_peers_flag: action.payload };
+         case ACTION.SET_ALL_VALUES:
+                return {...state, ...action.payload };
           default:
             return state;
         }
       };
+
+      React.useEffect(() => {
+        const fetchDataAsync = async () => {
+          let req_obj = {
+            params  : {user_id: user_id,
+                node_id: selectec_node_id,
+          }}
+          let resp = await get_policy_info(req_obj);
+          console.log(resp?.message?.preferred_state);
+          if(resp?.success){
+            dispatch({
+                type: ACTION.SET_ALL_VALUES,
+                payload: resp?.message?.preferred_state,
+              });
+          }
+          
+        }
+        fetchDataAsync();
+        
+      },[])
+
 
       const [state, dispatch] = React.useReducer(reducer, {
         maximum_channel_imbalance_measure: 90,
@@ -57,8 +82,9 @@ const Policy = () => {
 
       const on_save_changes_btn_clicked = async() =>{
         let data_to_save = {"preferred_state" :state, "user_id" : user_id,node_id:selectec_node_id }
-       
         console.log(data_to_save);
+       let resp = await save_policy_info(data_to_save);
+       console.log(resp);
       }
 
       
