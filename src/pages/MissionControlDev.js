@@ -16,6 +16,7 @@ import Header1 from "../components/Header1";
 import { useSelector } from "react-redux";
 import { call_grpc_ops, get_accounting_info, get_forwards, get_rebalance_fee } from "../services/api/lightning_node_communication_service";
 import { extract_fee_earned_channel_opening_cost, getDateRange, get_fee_earned_from_forwards } from "../services/support_functions";
+import { Center, Grid, GridItem } from '@chakra-ui/react'
 import GenericLoadingComponent from "../components/GenericLoadingComponent";
 
 ChartJS.register(
@@ -73,6 +74,10 @@ const MissionControlDev = () => {
         let fee_and_cost = extract_fee_earned_channel_opening_cost(resp?.message?.channels);
         setChannle_opening_fee_earned(fee_and_cost);
       }
+      else{
+        setchannel_info_with_accounting([]);
+        setChannle_opening_fee_earned({})
+      }
     };
     if (!channel_info_with_accounting) {
       fetchDataAsync();
@@ -89,7 +94,13 @@ const MissionControlDev = () => {
       }
       let resp = await call_grpc_ops(req_obj);
 
-      setWallet_balance_info(resp.message)
+      if(resp.success){
+        setWallet_balance_info(resp.message);
+      }
+      else{
+        setWallet_balance_info({});
+      }
+      
     }
     if(!wallet_balance_info){
         fetchDataAsync();
@@ -106,7 +117,13 @@ React.useEffect(() => {
         operation : "get_info_grpc"
       }
       let resp = await call_grpc_ops(req_obj);
-      set_generic_node_info(resp.message)
+      if(resp.success){
+        set_generic_node_info(resp.message)
+      }
+      else{
+        set_generic_node_info({})
+      }
+      
     }
     if(!generic_node_info)
       {
@@ -124,7 +141,12 @@ React.useEffect(() => {
       start_date: start_date}
     }
     let resp = await get_rebalance_fee(req_obj);
-    set_rebalance_cost(resp.message)
+    if(resp.success){
+      set_rebalance_cost(resp.message)
+    }
+    else{
+      set_rebalance_cost({})
+    }
   }
   if(!generic_node_info)
     {
@@ -146,7 +168,8 @@ React.useEffect(() => {
       start_date: start_date, end_date : end_date}
     }
     let resp = await get_forwards(req_obj);
-   let fee_earned = get_fee_earned_from_forwards(resp.message);
+    
+   let fee_earned =  get_fee_earned_from_forwards(resp.message);
    setfee_earned(fee_earned)
   //  set_rebalance_cost(resp.message)
   }
@@ -262,9 +285,10 @@ React.useEffect(() => {
 
         <div className="container2">
           <h2 className="mb-0">Analytics</h2>
-          <div className="analytics">
-            <div className="d-flex justify-content-between align-items-center w-100">
-              <div className="box box1">
+           <Center>
+          <Grid templateRows='repeat(2, 1fr)'  templateColumns='repeat(2, 1fr)' gap={6}>
+          <GridItem colSpan={1} rowSpan={1}>
+              <div className="box box3">
                 <table className="w-100">
                   <thead>
                     <tr>
@@ -307,6 +331,8 @@ React.useEffect(() => {
                   </tr>
                 </table>
               </div>
+              </GridItem>
+              <GridItem colSpan={1} rowSpan={1} >
               <div className="box2 graph">
                 <h3>Revenue & Expenses Graph</h3>
                 <Line
@@ -362,8 +388,8 @@ React.useEffect(() => {
                   }}
                 />
               </div>
-            </div>
-            <div className="d-flex justify-content-between align-items-center w-100 mt-4">
+              </GridItem>
+              <GridItem colSpan={1} rowSpan={1}>
               <div className="box box3">
                 <table className="w-100">
                 <thead>
@@ -387,13 +413,18 @@ React.useEffect(() => {
                   </tr>
                 </table>
               </div>
+              </GridItem>
+              <GridItem colSpan={1} rowSpan={1}>
               <div className="box box4">
                 Balance: {Number(wallet_balance_info?.total_balance)?.toLocaleString()} sats <br />
                 Deposit: - sats <br />
                 Growth: - YTD
               </div>
-            </div>
-          </div>
+              </GridItem>
+              </Grid>
+             
+          {/* </div> */}
+          </Center>
         </div> 
       </div>
       {showloadingDialog &&
