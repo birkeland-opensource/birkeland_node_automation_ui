@@ -37,7 +37,19 @@ input[type=text],[type=password] {
     margin:8px 0;
     align-items: center;
     padding: 12px 16px;
-    width: 445px;
+    /* width: 445px; */
+    background: #FFFFFF;
+    border: 2px solid #E0E0E0;
+    border-radius: 6px;
+    font-size: 16px; 
+    font-weight: 400;
+ }
+ input[type=number] {
+    color: black;
+    margin:8px 0;
+    align-items: center;
+    padding: 12px 16px;
+    /* width: 445px; */
     background: #FFFFFF;
     border: 2px solid #E0E0E0;
     border-radius: 6px;
@@ -46,7 +58,7 @@ input[type=text],[type=password] {
  }
 input[type=text]{
     color: black;
-    background-image: url(../assets/icons/message.svg);
+    /* background-image: url(../assets/icons/message.svg); */
     display: inline-block;
     background-repeat: no-repeat;
     background-position:410px 15px;

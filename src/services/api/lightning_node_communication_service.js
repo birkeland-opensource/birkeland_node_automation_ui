@@ -58,3 +58,25 @@ export const get_closed_channels_fee = async (get_object) =>{
 
 }
 
+
+export const get_on_chain_address_service = async (get_object) =>{
+
+    try {
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/lnd/auth_macarooon_ops`, get_object);
+        return {success: true, message: response.data?.message};
+    }   
+    catch(err){
+        return {success: false, message: err}
+    }
+}
+
+export const make_on_chain_transfer = async (get_object) =>{
+
+    try {
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/lnd/auth_macarooon_ops`, get_object);
+        return {success: true, message: response.data?.message};
+    }   
+    catch(err){
+        return {success: false, message: err}
+    }
+}
