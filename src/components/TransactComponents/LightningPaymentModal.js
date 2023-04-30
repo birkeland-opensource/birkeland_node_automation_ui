@@ -109,7 +109,7 @@ const [showloadingDialog, setshowloadingDialog] = useState(false)
   };
 
   return (
-    <Modal isOpen={lightning_payment_modal} aria-labelledby="form-dialog-title">
+    <Modal isOpen={lightning_payment_modal} aria-labelledby="form-dialog-title"   size={"lg"}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader id="form-dialog-title" bg={"white"}>

@@ -49,6 +49,7 @@ function OnChainPaymentModal({header_message,on_chain_payment_modal_state,set_on
     <Modal
     isOpen={on_chain_payment_modal_state}
     aria-labelledby="form-dialog-title"
+    size={"lg"}
   >
     <ModalOverlay />
     <ModalContent>

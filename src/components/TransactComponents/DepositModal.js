@@ -15,11 +15,12 @@ import QRCode from "react-qr-code";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useSelector } from "react-redux";
 import { get_on_chain_address_service } from "../../services/api/lightning_node_communication_service";
+import GenericLoadingComponent from "../GenericLoadingComponent";
 
 function DepositModal({ deposit_modal_state, set_deposit_modal_state }) {
   const user_id = useSelector((state) => state?.user_id);
   const selected_node_id = useSelector((state) => state?.selected_node_id);
-
+  const [showloadingDialog, setshowloadingDialog] = useState(false)
   const [received_request_hash, set_received_request_hash] = useState(false);
   const [request_hash, setrequest_hash] = useState("");
   const [request_hash_copied, set_request_hash_copied] = useState(false);
@@ -29,6 +30,7 @@ function DepositModal({ deposit_modal_state, set_deposit_modal_state }) {
   useEffect(() => {
     const fetchDataAsync = async () => {
       setrequest_in_progress(true);
+      setshowloadingDialog(true);
       let get_object = {
         user_id: user_id,
         unique_node_id: selected_node_id,
@@ -38,7 +40,10 @@ function DepositModal({ deposit_modal_state, set_deposit_modal_state }) {
       if (resp.success) {
         set_received_request_hash(true);
         setrequest_hash(resp.message.address);
+      }else{
+        alert("Error in creating address")
       }
+      setshowloadingDialog(false);
     };
     if (!request_in_progress) {
       fetchDataAsync();
@@ -46,7 +51,7 @@ function DepositModal({ deposit_modal_state, set_deposit_modal_state }) {
   }, []);
 
   return (
-    <Modal isOpen={deposit_modal_state} aria-labelledby="form-dialog-title">
+    <Modal isOpen={deposit_modal_state} aria-labelledby="form-dialog-title"   size={"lg"}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader id="form-dialog-title" bg={"white"}>
@@ -90,6 +95,11 @@ function DepositModal({ deposit_modal_state, set_deposit_modal_state }) {
           </Button>
         </ModalFooter>
       </ModalContent>
+      {showloadingDialog &&
+      <GenericLoadingComponent
+        loadingmessage={" "}
+        showloadingDialog={showloadingDialog}
+      /> }
     </Modal>
   );
 }

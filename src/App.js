@@ -53,7 +53,7 @@ function App() {
           <BrowserRouter basename='/'>
             <Routes>
               
-              <Route path="/" element={<MissionControlDev />} />
+              <Route path="/" element={<ConnectedConnectNode />} />
               <Route path="/connect" element={<ConnectedConnectNode />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/wallet" element={<BitcoinWallet />} />
