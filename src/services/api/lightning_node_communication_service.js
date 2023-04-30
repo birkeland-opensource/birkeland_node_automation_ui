@@ -70,7 +70,7 @@ export const get_on_chain_address_service = async (get_object) =>{
     }
 }
 
-export const make_on_chain_transfer = async (get_object) =>{
+export const authenticated_operations = async (get_object) =>{
 
     try {
         const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/lnd/auth_macarooon_ops`, get_object);

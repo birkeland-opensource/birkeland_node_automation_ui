@@ -12,7 +12,7 @@ import {
     Input,
     Text,
   } from "@chakra-ui/react";
-import { make_on_chain_transfer } from '../../services/api/lightning_node_communication_service';
+import { authenticated_operations } from '../../services/api/lightning_node_communication_service';
 import { useSelector } from "react-redux";
 import GenericLoadingComponent from '../GenericLoadingComponent';
 
@@ -33,7 +33,7 @@ function OnChainPaymentModal({header_message,on_chain_payment_modal_state,set_on
             unique_node_id : selected_node_id
         }
         setShowloadingDialog(true);
-        let resp = await make_on_chain_transfer(object);
+        let resp = await authenticated_operations(object);
         if(resp.success){
             set_tokens(100);
             set_address("");

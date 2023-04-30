@@ -3,8 +3,12 @@ import "./Accounting.css";
 import Header1 from "../components/Header1";
 import DepositModal from "../components/TransactComponents/DepositModal";
 import OnChainPaymentModal from "../components/TransactComponents/OnChainPaymentModal";
+import LightningPaymentModal from "../components/TransactComponents/LightningPaymentModal";
 
 const Accounting = () => {
+
+    const [lightning_payment_modal, set_lightning_payment_modal] = useState(false)
+
   const [deposit_modal_state, set_deposit_modal_state] = useState(false);
   const [on_chain_payment_modal_state, set_on_chain_payment_modal_state] =
     useState(false);
@@ -13,12 +17,10 @@ const Accounting = () => {
     setOn_chain_deposit_payment_message,
   ] = useState("");
   const on_deposit_button_clicked = () => {
-    console.log("on_deposit_button_clicked");
     set_deposit_modal_state(true);
   };
 
   const on_withdraw_button_clicked = () => {
-    console.log("on_withdraw_button_clicked");
     setOn_chain_deposit_payment_message("Make On-Chain Withdrawal");
     set_on_chain_payment_modal_state(true);
   };
@@ -26,11 +28,10 @@ const Accounting = () => {
   const on_on_chain_payment_button_clicked = () => {
     setOn_chain_deposit_payment_message("Make On-Chain Payment");
     set_on_chain_payment_modal_state(true);
-    console.log("on_on_chain_payment_button_clicked");
   };
 
   const on_lightning_payment_button_clicked = () => {
-    console.log("on_lightning_payment_button_clicked");
+    set_lightning_payment_modal(true);
   };
 
   return (
@@ -119,6 +120,10 @@ const Accounting = () => {
         set_on_chain_payment_modal_state={set_on_chain_payment_modal_state}
         on_chain_payment_modal_state={on_chain_payment_modal_state}
       />
+
+      <LightningPaymentModal 
+      set_lightning_payment_modal ={set_lightning_payment_modal}
+      lightning_payment_modal ={lightning_payment_modal}/>
     </>
   );
 };

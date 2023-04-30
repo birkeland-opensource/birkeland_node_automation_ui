@@ -87,9 +87,7 @@ const Policy = () => {
 
       const on_save_changes_btn_clicked = async() =>{
         let data_to_save = {"preferred_state" :state, "user_id" : user_id,node_id:selectec_node_id }
-        console.log(data_to_save);
        let resp = await save_policy_info(data_to_save);
-       console.log(resp);
       }
 
       
