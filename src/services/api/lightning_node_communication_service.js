@@ -80,3 +80,14 @@ export const authenticated_operations = async (get_object) =>{
         return {success: false, message: err}
     }
 }
+
+export const get_wallet_info = async(get_object) =>{
+
+    try{
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/accounting/call_grpc_ops`, get_object);
+        return {success: true, message: response.data?.message};
+    }
+    catch(err){
+        return {success: false, message: err}
+    }
+}

@@ -4,10 +4,16 @@ import Header1 from "../components/Header1";
 import DepositModal from "../components/TransactComponents/DepositModal";
 import OnChainPaymentModal from "../components/TransactComponents/OnChainPaymentModal";
 import LightningPaymentModal from "../components/TransactComponents/LightningPaymentModal";
+import { useSelector } from "react-redux";
+import { call_grpc_ops } from "../services/api/lightning_node_communication_service";
 
 const Accounting = () => {
+  const user_id = useSelector((state) => state?.user_id);
+  const selectec_node_id = useSelector((state) => state?.selected_node_id);
 
-    const [lightning_payment_modal, set_lightning_payment_modal] = useState(false)
+  const [wallet_balance_info, set_wallet_balance_info] = useState({});
+  const [lightning_payment_modal, set_lightning_payment_modal] =
+    useState(false);
 
   const [deposit_modal_state, set_deposit_modal_state] = useState(false);
   const [on_chain_payment_modal_state, set_on_chain_payment_modal_state] =
@@ -34,6 +40,24 @@ const Accounting = () => {
     set_lightning_payment_modal(true);
   };
 
+  React.useEffect(() => {
+    const fetchDataAsync = async () => {
+      let req_obj = {
+        user_id: user_id,
+        unique_node_id: selectec_node_id,
+        operation: "wallet_balance_grpc",
+      };
+      let resp = await call_grpc_ops(req_obj);
+      if (resp.success) {
+       
+        set_wallet_balance_info(resp.message);
+      } else {
+        set_wallet_balance_info({});
+      }
+    };
+      fetchDataAsync();
+  }, []);
+
   return (
     <>
       <div>
@@ -41,10 +65,14 @@ const Accounting = () => {
         <div class="account-div1">
           <div class="account-div">
             <div class="acc1 blnc-div">
+          
               <p>
-                Balance: 5,000,000 sats <br />
-                Deposit: 4,000,000 sats <br />
-                Growth: -
+              Balance <br/>
+              <br/>
+                Confirmed: {Number(wallet_balance_info?.confirmed_balance)?.toLocaleString()} sats <br />
+                UnConfirmed: {Number(wallet_balance_info?.unconfirmed_balance)?.toLocaleString()} sats <br />
+                Total: {Number(wallet_balance_info?.total_balance)?.toLocaleString()} sats <br />
+                {/* Growth: - */}
               </p>
             </div>
           </div>
@@ -121,9 +149,10 @@ const Accounting = () => {
         on_chain_payment_modal_state={on_chain_payment_modal_state}
       />
 
-      <LightningPaymentModal 
-      set_lightning_payment_modal ={set_lightning_payment_modal}
-      lightning_payment_modal ={lightning_payment_modal}/>
+      <LightningPaymentModal
+        set_lightning_payment_modal={set_lightning_payment_modal}
+        lightning_payment_modal={lightning_payment_modal}
+      />
     </>
   );
 };
