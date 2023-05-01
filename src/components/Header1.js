@@ -30,12 +30,12 @@ const Header1 = () => {
                             navigate("/accounting")
                         }}>Accounting</a>
                     </li>
-                    <li>
+                    {/* <li>
                         <a className={location.pathname == "/security" ? "mission" : ""} href="#" onClick={(e) => {
                             e.preventDefault()
                             navigate("/security")
                         }}>Security</a>
-                    </li>
+                    </li> */}
                     <li>
                         <a className={location.pathname == "/connect" ? "mission" : ""} href="#" onClick={(e) => {
                             e.preventDefault()

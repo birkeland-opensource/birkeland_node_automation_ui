@@ -55,10 +55,10 @@ function App() {
               
               <Route path="/" element={<ConnectedConnectNode />} />
               <Route path="/connect" element={<ConnectedConnectNode />} />
-              <Route path="/onboarding" element={<Onboarding />} />
+              {/* <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/wallet" element={<BitcoinWallet />} />
-              <Route path="/seedphrase" element={<SeedPhrase />} />
-              <Route path="/lightningnode" element={<LightningNode />} />
+              <Route path="/seedphrase" element={<SeedPhrase />} /> */}
+              {/* <Route path="/lightningnode" element={<LightningNode />} />
               <Route path="/password" element={<Password1 />} />
               <Route path="/pswd" element={<Password2 />} />
               <Route path="/deposit" element={<Deposit />} />
@@ -67,12 +67,12 @@ function App() {
               <Route path="/peer" element={<Peer />} />
               <Route path="/fundchannel" element={<FundChannel />} />
               <Route path="/liquidity" element={<Liquidity />} />
-              <Route path="/loading" element={<Loader1 />} />
+              <Route path="/loading" element={<Loader1 />} /> */}
               <Route path="/todashboard" element={<ToDashboard />} />
-              <Route path="/dashboard" element={<MissionControlDev />} />
+              <Route path="/dashboard" element={<MissionControlDev />} /> 
               <Route path="/policy" element={<Policy />} />
               <Route path="/accounting" element={<Accounting />} />
-              <Route path="/security" element={<Security />} />
+              {/* <Route path="/security" element={<Security />} /> */}
               <Route path="*" element={<Navigate to="/" />} />  
             </Routes>
           </BrowserRouter>  
