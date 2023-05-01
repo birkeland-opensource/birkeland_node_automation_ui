@@ -46,7 +46,7 @@ const labels = [
 ];
 
 const MissionControlDev = () => {
-  const [showloadingDialog, setShowloadingDialog] = useState(true);
+  const [showloadingDialog, setShowloadingDialog] = useState(false);
   const [channel_info_with_accounting, setchannel_info_with_accounting] =useState(null);
   const [channle_opening_fee_earned, setChannle_opening_fee_earned] = useState(null);
   const [wallet_balance_info, setWallet_balance_info] = useState(null);
@@ -69,13 +69,16 @@ const MissionControlDev = () => {
           end_date: end_date,
         },
       };
+            setShowloadingDialog(true);
       let resp = await get_accounting_info(get_object);
       if (resp?.success) {
         setchannel_info_with_accounting(resp?.message?.channels);
+          setShowloadingDialog(false);
         let fee_and_cost = extract_fee_earned_channel_opening_cost(resp?.message?.channels);
         setChannle_opening_fee_earned(fee_and_cost);
       }
       else{
+          setShowloadingDialog(false)
         setchannel_info_with_accounting([]);
         setChannle_opening_fee_earned({})
       }
@@ -207,11 +210,6 @@ React.useEffect(() => {
   
 },[])
 
-React.useEffect(() => {
-  if(channel_info_with_accounting && wallet_balance_info && generic_node_info && rebalance_cost && fee_earned){
-    setShowloadingDialog(false)
-  }
-},[channel_info_with_accounting,wallet_balance_info,generic_node_info,rebalance_cost,fee_earned])
 
   const data = {
     labels,
