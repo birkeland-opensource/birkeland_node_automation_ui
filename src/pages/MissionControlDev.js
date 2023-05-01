@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import {
   call_grpc_ops,
   get_accounting_info,
+  get_active_channels_opening_fees,
   get_closed_channels_fee,
   get_forwards,
   get_rebalance_fee,
@@ -67,6 +68,7 @@ const MissionControlDev = () => {
   const [rebalance_cost, set_rebalance_cost] = useState(null);
   const [fee_earned, setfee_earned] = useState(null);
   const [channel_closing_info, setchannel_closing_info] = useState(null);
+  const [active_channel_opening_fee, setactive_channel_opening_fee] = useState(null);
 
   const user_id = useSelector((state) => state?.user_id);
   const selectec_node_id = useSelector((state) => state?.selected_node_id);
@@ -179,6 +181,29 @@ const MissionControlDev = () => {
       channelClosingInfo();
     }
   }, []);
+
+
+  
+
+  React.useEffect(() => {
+    const activeChannelsOpeningFee = async () => {
+      let req_obj = {
+        params: { user_id: user_id, unique_node_id: selectec_node_id },
+      };
+      let resp = await get_active_channels_opening_fees(req_obj);
+      if (resp.success) {
+        setactive_channel_opening_fee(resp.message);
+        // set_rebalance_cost(resp.message)
+      } else {
+        setactive_channel_opening_fee({});
+        // set_rebalance_cost({})
+      }
+    };
+ 
+      activeChannelsOpeningFee();
+
+  }, []);
+
 
 
   React.useEffect(() => {
@@ -370,7 +395,7 @@ const MissionControlDev = () => {
                     <tr>
                       <td>Open Channels</td>
                       <td className="text-right">
-                        {Number(channle_opening_fee_earned?.channel_opening_cost+channel_closing_info?.closed_channel_opening_fee)?.toLocaleString()}
+                        {Number(active_channel_opening_fee?.fee+channel_closing_info?.closed_channel_opening_fee)?.toLocaleString()}
                       </td>
                     </tr>
                     <tr>
@@ -383,8 +408,9 @@ const MissionControlDev = () => {
                       <td>Total</td>
                       <td className="text-right">
                         {(
+                          channel_closing_info?.closed_channel_opening_fee +
                           rebalance_cost?.total_fee_in_sats +
-                          channle_opening_fee_earned?.channel_opening_cost +
+                          active_channel_opening_fee?.fee +
                           channel_closing_info?.closing_fee
                         ).toLocaleString()}
                       </td>
@@ -399,8 +425,8 @@ const MissionControlDev = () => {
                       <td className="text-right">
                         {Math.floor(
                           fee_earned?.fee_earned -
-                            (rebalance_cost?.total_fee_in_sats +
-                              channle_opening_fee_earned?.channel_opening_cost +
+                            (rebalance_cost?.total_fee_in_sats +   active_channel_opening_fee?.fee +
+                              channel_closing_info?.closed_channel_opening_fee +
                               channel_closing_info?.closing_fee)
                         ).toLocaleString()}
                       </td>

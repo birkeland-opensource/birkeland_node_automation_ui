@@ -91,3 +91,13 @@ export const get_wallet_info = async(get_object) =>{
         return {success: false, message: err}
     }
 }
+
+export const get_active_channels_opening_fees = async(get_object) =>{
+    try{
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/accounting/get_active_channels_opening_fees`, get_object);
+        return {success: true, message: response.data?.message};
+    }
+    catch(err){
+        return {success: false, message: err}
+    }
+}
