@@ -19,7 +19,6 @@ import "./Connect.css"
 import Header1 from "../components/Header1";
 import { titleColor } from "../utlis/color_themes";
 import { delete_one_node_info_service, get_all_node_info_service, save_node_info_service } from "../services/api/node_info_service";
-import { useSelector } from 'react-redux';
 import GenericLoadingComponent from "../components/GenericLoadingComponent";
 
 
@@ -189,6 +188,7 @@ const ConnectNode = (props) => {
               ))}
             </table>
             </Box>
+        
           </div>
 
           <Button
