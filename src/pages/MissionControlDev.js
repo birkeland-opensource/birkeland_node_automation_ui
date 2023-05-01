@@ -370,7 +370,7 @@ const MissionControlDev = () => {
                     <tr>
                       <td>Open Channels</td>
                       <td className="text-right">
-                        {channle_opening_fee_earned?.channel_opening_cost?.toLocaleString()}
+                        {Number(channle_opening_fee_earned?.channel_opening_cost+channel_closing_info?.closed_channel_opening_fee)?.toLocaleString()}
                       </td>
                     </tr>
                     <tr>
